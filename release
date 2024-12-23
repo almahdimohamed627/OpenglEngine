@@ -1,0 +1,4 @@
+cd /home/mohamed/Documents/vscode/c++/cgEngine
+g++ src/mainwindow.cpp -O3 -lGL -lGLU -lglut -lncurses -lSOIL -o bin/debug/cg
+bin/debug/cg
+

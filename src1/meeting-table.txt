@@ -1,0 +1,277 @@
+void initMeetingChair() {
+	glPushMatrix();
+	glNewList(4, GL_COMPILE);
+	GLUquadric *a = gluNewQuadric();
+	glColor3ub(100, 100, 100);
+	// neck
+	glPushMatrix();
+	glTranslatef(0, -10, 1.2);
+	glRotatef(-10, 1, 0, 0);
+	glScalef(0.8, 2.4, 0.6);
+	glutSolidCube(4);
+	glPopMatrix();
+
+	//leg
+	glPushMatrix();
+	glTranslatef(0, -28, 7);
+	glRotatef(-90, 1, 0, 0);
+	gluCylinder(a, 3, 3, 12, 100, 100);
+	glPopMatrix();
+
+	
+
+	glColor3ub(20, 20, 15);
+	//base
+	glPushMatrix();
+	glTranslatef(0, -28, 7);
+	glRotatef(-90, 1, 0, 0);
+	glutSolidTorus(0.6, 3.7, 100, 100);
+	glPopMatrix();
+
+	//back
+	glPushMatrix();
+	glRotatef(-5, 1, 0, 0);
+	glScalef(1, 1.3, 0.4);
+	gluSphere(a, 7, 100, 100);
+	glPopMatrix();
+
+	glColor3ub(100, 100, 100);
+	// arms
+	glPushMatrix();
+	glTranslatef(5, -14, 4);
+	glRotatef(-90, 1, -0.1, 0);
+	gluCylinder(a, 0.4, 0.4, 7, 100, 100);
+	glPopMatrix();
+	glPushMatrix();
+	glTranslatef(-5, -14, 4);
+	glRotatef(-90, 1, 0.1, 0);
+	gluCylinder(a, 0.4, 0.4, 7, 100, 100);
+	glPopMatrix();
+
+	glColor3ub(20, 20, 15);
+	//handles
+	glPushMatrix();
+	glTranslatef(5.8, -7, 3.5);
+	gluCylinder(a, 0.6, 0.6, 8, 100, 100);
+	glPopMatrix();
+	glPushMatrix();
+	glTranslatef(-5.8, -7, 3.5);
+	gluCylinder(a, 0.6, 0.6, 8, 100, 100);
+	glPopMatrix();
+
+	//seat
+	glPushMatrix();
+	glTranslatef(0, -15, 7);
+	glScalef(1, 0.4, 1);
+	gluSphere(a, 7, 100, 100);
+	glPopMatrix();
+
+	
+
+	glEndList();
+	glPopMatrix();
+}
+
+
+void initMeetingTable() {
+	glPushMatrix();
+	glNewList(5, GL_COMPILE);
+	GLUquadric *a = gluNewQuadric();
+	glColor3ub(60, 45, 15);
+
+	//table
+	glPushMatrix();
+	glScalef(1.5, 0.1, 1);
+	glutSolidCube(4);
+	glPopMatrix();
+	glPushMatrix();
+	glTranslatef(3, 0.2, 0);
+	glRotatef(90, 1, 0, 0);
+	glScalef(1, 1, 0.1);
+	gluCylinder(a, 2, 2, 4, 100, 100);
+	glPopMatrix();
+	glPushMatrix();
+	glTranslatef(3, 0.2, 0);
+	glRotatef(90, 1, 0, 0);
+	glScalef(1, 1, 0.1);
+	gluDisk(a, 0, 2, 100, 100);
+	glPopMatrix();
+	glPushMatrix();
+	glTranslatef(3, -0.2, 0);
+	glRotatef(90, 1, 0, 0);
+	glScalef(1, 1, 0.1);
+	gluDisk(a, 0, 2, 100, 100);
+	glPopMatrix();
+	glPushMatrix();
+	glTranslatef(-3, 0.2, 0);
+	glRotatef(90, 1, 0, 0);
+	glScalef(1, 1, 0.1);
+	gluCylinder(a, 2, 2, 4, 100, 100);
+	glPopMatrix();
+	glPushMatrix();
+	glTranslatef(-3, 0.2, 0);
+	glRotatef(90, 1, 0, 0);
+	glScalef(1, 1, 0.1);
+	gluDisk(a, 0, 2, 100, 100);
+	glPopMatrix();
+	glPushMatrix();
+	glTranslatef(-3, -0.2, 0);
+	glRotatef(90, 1, 0, 0);
+	glScalef(1, 1, 0.1);
+	gluDisk(a, 0, 2, 100, 100);
+	glPopMatrix();
+
+	//leg
+	glPushMatrix();
+	glTranslatef(0, -1, 0);
+	glScalef(0.5, 5, 0.5);
+	glPushMatrix();
+	glScalef(1.5, 0.1, 1);
+	glutSolidCube(4);
+	glPopMatrix();
+	glPushMatrix();
+	glTranslatef(3, 0.2, 0);
+	glRotatef(90, 1, 0, 0);
+	glScalef(1, 1, 0.1);
+	gluCylinder(a, 2, 2, 4, 100, 100);
+	glPopMatrix();
+	glPushMatrix();
+	glTranslatef(3, 0.2, 0);
+	glRotatef(90, 1, 0, 0);
+	glScalef(1, 1, 0.1);
+	gluDisk(a, 0, 2, 100, 100);
+	glPopMatrix();
+	glPushMatrix();
+	glTranslatef(3, -0.2, 0);
+	glRotatef(90, 1, 0, 0);
+	glScalef(1, 1, 0.1);
+	gluDisk(a, 0, 2, 100, 100);
+	glPopMatrix();
+	glPushMatrix();
+	glTranslatef(-3, 0.2, 0);
+	glRotatef(90, 1, 0, 0);
+	glScalef(1, 1, 0.1);
+	gluCylinder(a, 2, 2, 4, 100, 100);
+	glPopMatrix();
+	glPushMatrix();
+	glTranslatef(-3, 0.2, 0);
+	glRotatef(90, 1, 0, 0);
+	glScalef(1, 1, 0.1);
+	gluDisk(a, 0, 2, 100, 100);
+	glPopMatrix();
+	glPushMatrix();
+	glTranslatef(-3, -0.2, 0);
+	glRotatef(90, 1, 0, 0);
+	glScalef(1, 1, 0.1);
+	gluDisk(a, 0, 2, 100, 100);
+	glPopMatrix();
+	glPopMatrix();
+
+	// base
+	glPushMatrix();
+	glTranslatef(0, -2, 0);
+	glScalef(0.7, 0.5, 0.7);
+	glPushMatrix();
+	glScalef(1.5, 0.1, 1);
+	glutSolidCube(4);
+	glPopMatrix();
+	glPushMatrix();
+	glTranslatef(3, 0.2, 0);
+	glRotatef(90, 1, 0, 0);
+	glScalef(1, 1, 0.1);
+	gluCylinder(a, 2, 2, 4, 100, 100);
+	glPopMatrix();
+	glPushMatrix();
+	glTranslatef(3, 0.2, 0);
+	glRotatef(90, 1, 0, 0);
+	glScalef(1, 1, 0.1);
+	gluDisk(a, 0, 2, 100, 100);
+	glPopMatrix();
+	glPushMatrix();
+	glTranslatef(3, -0.2, 0);
+	glRotatef(90, 1, 0, 0);
+	glScalef(1, 1, 0.1);
+	gluDisk(a, 0, 2, 100, 100);
+	glPopMatrix();
+	glPushMatrix();
+	glTranslatef(-3, 0.2, 0);
+	glRotatef(90, 1, 0, 0);
+	glScalef(1, 1, 0.1);
+	gluCylinder(a, 2, 2, 4, 100, 100);
+	glPopMatrix();
+	glPushMatrix();
+	glTranslatef(-3, 0.2, 0);
+	glRotatef(90, 1, 0, 0);
+	glScalef(1, 1, 0.1);
+	gluDisk(a, 0, 2, 100, 100);
+	glPopMatrix();
+	glPushMatrix();
+	glTranslatef(-3, -0.2, 0);
+	glRotatef(90, 1, 0, 0);
+	glScalef(1, 1, 0.1);
+	gluDisk(a, 0, 2, 100, 100);
+	glPopMatrix();
+	glPopMatrix();
+
+	//square
+	glColor3ub(30, 30, 30);
+	glPushMatrix();
+	glTranslatef(0, 0.08, 0);
+	glScalef(1.5, 0.1, 1);
+	glutSolidCube(3);
+	glPopMatrix();
+
+	glEndList();
+	glPopMatrix();
+}
+
+void drewMeetingTable() {
+	GLUquadric *a = gluNewQuadric();
+	glColor3ub(250, 0, 0);
+	glPushMatrix();
+	glTranslatef(0, 28.5, -30);
+	glCallList(4);
+	glPopMatrix();
+	glPushMatrix();
+	glTranslatef(30, 28.5, -28);
+	glRotatef(-10, 0, 1, 0);
+	glCallList(4);
+	glPopMatrix();
+	glPushMatrix();
+	glTranslatef(-31, 28.5, -29);
+	glRotatef(10, 0, 1, 0);
+	glCallList(4);
+	glPopMatrix();
+	glPushMatrix();
+	
+	glPushMatrix();
+	glTranslatef(60, 28.5, 1);
+	glRotatef(-90, 0, 1, 0);
+	glCallList(4);
+	glPopMatrix();
+	glPushMatrix();
+	glTranslatef(-60, 28.5, 0);
+	glRotatef(90, 0, 1, 0);
+	glCallList(4);
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(0, 21, 0);
+	glScalef(10, 10, 10);
+	glCallList(5);
+	glPopMatrix();
+	glTranslatef(0, 28.5, 30);
+	glRotatef(180, 0, 1, 0);
+	glCallList(4);
+	glPopMatrix();
+	glPushMatrix();
+	glTranslatef(30, 28.5, 28);
+	glRotatef(191, 0, 1, 0);
+	glCallList(4);
+	glPopMatrix();
+	glPushMatrix();
+	glTranslatef(-31, 28.5, 29);
+	glRotatef(170, 0, 1, 0);
+	glCallList(4);
+	glPopMatrix();
+}
