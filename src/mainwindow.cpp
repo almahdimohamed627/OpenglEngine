@@ -42,30 +42,39 @@ void renderBitmapText(float x, float y, const char *text, void *font)
 		glutBitmapCharacter(font, *c); // Render each character
 	}
 }
-
-class Circle
-{
-private: // Private members (default access specifier if omitted)
+class Entity {
+	protected: // Private members (default access specifier if omitted)
 	int translate_x = Ex, translate_y = E, translate_z = Ez;
 	int rotate_x = 0, rotate_y = 0, rotate_z = 0;
 	int scale_x = 1, scale_y = 1, scale_z = 1;
 	int red = 0, green = 0, blue = 0, alpha = 255;
 
-public: // Public members
-	// Constructor
-	Circle()
+	public:
+	void transform()
 	{
-	}
-
-	void display()
-	{
-		glPushMatrix();
 		glColor4ub(red, green, blue, alpha);
 		glTranslated(translate_x, translate_y, translate_z);
 		glRotated(rotate_x, 1, 0, 0);
 		glRotated(rotate_y, 0, 1, 0);
 		glRotated(rotate_z, 0, 0, 1);
 		glScaled(scale_x, scale_y, scale_z);
+	}
+
+	virtual void display() {
+		glutSolidTeapot(2);
+	}
+
+};
+class Circle : public Entity
+{
+private: // Private members (default access specifier if omitted)
+
+public: // Public members
+
+	void display()
+	{
+		glPushMatrix();
+		transform();
 		glutSolidSphere(1, 50, 50);
 		glPopMatrix();
 	}
@@ -124,7 +133,7 @@ public: // Public members
 	}
 };
 
-std::vector<Circle *> circles;
+std::vector<Entity *> entities;
 
 Button circle_button("Circle", 20, 20);
 Button hello("hello my name is mohamed", 20, 60);
@@ -141,7 +150,7 @@ void mouseButton(int button, int state, int x, int y)
 		circle_button.testCollision(
 			[]()
 			{
-				circles.push_back(new Circle());
+				entities.push_back(new Circle());
 			});
 	}
 	else if (button == GLUT_RIGHT_BUTTON && state == GLUT_DOWN)
@@ -411,9 +420,9 @@ void DrawGLScene(void)
 		glEnd();
 	}
 
-	for (Circle *c : circles)
+	for (Entity *e : entities)
 	{
-		c->display();
+		e->display();
 	}
 
 	glPopMatrix();
