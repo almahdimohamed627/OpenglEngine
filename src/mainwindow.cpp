@@ -3,6 +3,7 @@
 #include <iostream>
 #include <cstdio> // For printf
 #include <string>
+#include <vector>
 
 double th = 0;
 double Ex = 0;
@@ -42,6 +43,34 @@ void renderBitmapText(float x, float y, const char *text, void *font)
 	}
 }
 
+class Circle
+{
+private: // Private members (default access specifier if omitted)
+	int translate_x = Ex, translate_y = E, translate_z = Ez;
+	int rotate_x = 0, rotate_y = 0, rotate_z = 0;
+	int scale_x = 1, scale_y = 1, scale_z = 1;
+	int red = 0, green = 0, blue = 0, alpha = 255;
+
+public: // Public members
+	// Constructor
+	Circle()
+	{
+	}
+
+	void display()
+	{
+		glPushMatrix();
+		glColor4ub(red, green, blue, alpha);
+		glTranslated(translate_x, translate_y, translate_z);
+		glRotated(rotate_x, 1, 0, 0);
+		glRotated(rotate_y, 0, 1, 0);
+		glRotated(rotate_z, 0, 0, 1);
+		glScaled(scale_x, scale_y, scale_z);
+		glutSolidSphere(1, 50, 50);
+		glPopMatrix();
+	}
+};
+
 class Button
 {
 private:			  // Private members (default access specifier if omitted)
@@ -56,15 +85,15 @@ public: // Public members
 		this->x = x;
 		this->y = y;
 	}
-	bool testCollision()
+	bool testCollision(void (*func)())
 	{
 		// Get the button's width
 		float buttonWidth = 20 + (this->text.length() * 9.0);
 		// Check if mouse is inside the button bounds
 		if (mouseX >= this->x && mouseX <= (this->x + buttonWidth) &&
-		mouseY >= this->y && -mouseY <= (this->y + 30))
+			mouseY >= this->y && -mouseY <= (this->y + 30))
 		{
-			printf("He touched me owo\n");
+			func();
 			return true;
 		}
 		return false;
@@ -94,7 +123,10 @@ public: // Public members
 		renderBitmapText((x + 10 - 750) / 750.0, (y + 10 - 400) / 400.0, text.c_str(), GLUT_BITMAP_HELVETICA_18); // Large Helvetica
 	}
 };
-Button test("test", 20, 20);
+
+std::vector<Circle *> circles;
+
+Button circle_button("Circle", 20, 20);
 Button hello("hello my name is mohamed", 20, 60);
 // Callback for mouse button clicks
 void mouseButton(int button, int state, int x, int y)
@@ -105,7 +137,12 @@ void mouseButton(int button, int state, int x, int y)
 		printf("Left button pressed at (%d, %d)\n", x, y);
 		mouseX = x;
 		mouseY = y;
-		hello.testCollision();
+
+		circle_button.testCollision(
+			[]()
+			{
+				circles.push_back(new Circle());
+			});
 	}
 	else if (button == GLUT_RIGHT_BUTTON && state == GLUT_DOWN)
 	{
@@ -291,6 +328,7 @@ void printFPS()
 	oldTimeSinceStart = timeSinceStart;
 	// std::cout << '\r' << 1000 / deltaTime << " " << Ex << " " << E << " " << Ez << std::flush;
 }
+
 void InitGL(void)
 {
 	glShadeModel(GL_SMOOTH); // Enable Smooth Shading
@@ -298,7 +336,7 @@ void InitGL(void)
 	// glClearDepth(1.0f);									// Depth Buffer Setup
 	glEnable(GL_DEPTH_TEST); // Enables Depth Testing
 	glDepthFunc(GL_LEQUAL);
-	//glEnable(GL_LIGHTING);
+	// glEnable(GL_LIGHTING);
 	glEnable(GL_COLOR_MATERIAL);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -329,85 +367,84 @@ void ReSizeGLScene(int w, int h)
 }
 void DrawGLScene(void)
 {
-    glClearColor(1, 1, 1, 0.0f); // Set background to white
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Clear both color and depth buffers
+	glClearColor(1, 1, 1, 0.0f);						// Set background to white
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Clear both color and depth buffers
 
-    // --- 3D Rendering ---
-    glMatrixMode(GL_MODELVIEW); // Ensure we're in the modelview matrix mode
-    glLoadIdentity(); // Reset transformations
+	// --- 3D Rendering ---
+	glMatrixMode(GL_MODELVIEW); // Ensure we're in the modelview matrix mode
+	glLoadIdentity();			// Reset transformations
 
-    GLfloat position[] = {0, 10000, 0, 0}; // Light position
-    glLightfv(GL_LIGHT0, GL_POSITION, position);
+	GLfloat position[] = {0, 10000, 0, 0}; // Light position
+	glLightfv(GL_LIGHT0, GL_POSITION, position);
 
-    gluLookAt(Ex, E + 1.7, Ez, Ex + cos(th), E + 1.7, Ez + sin(th), 0, 1, 0); // Camera setup
+	gluLookAt(Ex, E, Ez, Ex + cos(th), E + 1.7, Ez + sin(th), 0, 1, 0); // Camera setup
 
-    if (rotateScene)
-    {
-        glRotated(90, 0, 0, 1); // Rotate the scene if needed
-    }
+	if (rotateScene)
+	{
+		glRotated(90, 0, 0, 1); // Rotate the scene if needed
+	}
+	// Draw the background grid
+	glPushMatrix();
+	glColor3f(0.7f, 0.7f, 0.7f); // Set the line color to gray
+	glLineWidth(1.0f);			 // Set the line width
 
-    // Draw the background grid
-    glPushMatrix();
-    glColor3f(0.7f, 0.7f, 0.7f); // Set the line color to gray
-    glLineWidth(1.0f); // Set the line width
+	// Draw vertical grid lines
+	for (int i = -150; i <= 150; i++)
+	{
+		glBegin(GL_LINES);
+		glVertex3f(i * 2.0f, 0.0f, -300.0f); // Line start
+		glVertex3f(i * 2.0f, 0.0f, 300.0f);	 // Line end
+		glEnd();
+	}
 
-    // Draw vertical grid lines
-    for (int i = -150; i <= 150; i++)
-    {
-        glBegin(GL_LINES);
-        glVertex3f(i * 2.0f, 0.0f, -300.0f); // Line start
-        glVertex3f(i * 2.0f, 0.0f, 300.0f); // Line end
-        glEnd();
-    }
+	// Draw horizontal grid lines
+	for (int i = -150; i <= 150; i++)
+	{
+		glBegin(GL_LINES);
+		glVertex3f(-300.0f, 0.0f, i * 2.0f); // Line start
+		glVertex3f(300.0f, 0.0f, i * 2.0f);	 // Line end
+		glEnd();
+	}
+	glPopMatrix();
 
-    // Draw horizontal grid lines
-    for (int i = -150; i <= 150; i++)
-    {
-        glBegin(GL_LINES);
-        glVertex3f(-300.0f, 0.0f, i * 2.0f); // Line start
-        glVertex3f(300.0f, 0.0f, i * 2.0f); // Line end
-        glEnd();
-    }
-    glPopMatrix();
+	for (Circle *c : circles)
+	{
+		c->display();
+	}
 
-    
+	// --- Switch to 2D for UI rendering ---
+	glMatrixMode(GL_PROJECTION);
+	glPushMatrix();
+	glLoadIdentity();
+	glOrtho(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0); // Set orthographic projection (2D)
 
+	glMatrixMode(GL_MODELVIEW);
+	glPushMatrix();
+	glLoadIdentity();
 
+	glDisable(GL_DEPTH_TEST); // Disable depth testing for 2D UI rendering
 
-    // --- Switch to 2D for UI rendering ---
-    glMatrixMode(GL_PROJECTION);
-    glPushMatrix();
-    glLoadIdentity();
-    glOrtho(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0); // Set orthographic projection (2D)
+	// Draw the center red point
+	glPushMatrix();
+	glColor3f(1.0f, 0.0f, 0.0f); // Red color
+	glPointSize(10.0f);			 // Large point
+	glBegin(GL_POINTS);
+	glVertex3f(0.0f, 0.0f, 0.0f); // Transform coordinates
+	glEnd();
+	glPopMatrix();
 
-    glMatrixMode(GL_MODELVIEW);
-    glPushMatrix();
-    glLoadIdentity();
+	// Render 2D UI elements (buttons, labels, etc.)
+	circle_button.display();
+	hello.display();
 
-    glDisable(GL_DEPTH_TEST); // Disable depth testing for 2D UI rendering
+	glEnable(GL_DEPTH_TEST); // Re-enable depth testing for 3D rendering after UI
 
-// Draw the center red point
-    glPushMatrix();
-    glColor3f(1.0f, 0.0f, 0.0f); // Red color
-    glPointSize(10.0f); // Large point
-    glBegin(GL_POINTS);
-    glVertex3f(0.0f, 0.0f, 0.0f); // Transform coordinates
-    glEnd();
-    glPopMatrix();
+	glPopMatrix(); // Restore modelview matrix
+	glMatrixMode(GL_PROJECTION);
+	glPopMatrix(); // Restore projection matrix
 
-
-    // Render 2D UI elements (buttons, labels, etc.)
-    test.display();
-    hello.display();
-
-    glEnable(GL_DEPTH_TEST); // Re-enable depth testing for 3D rendering after UI
-
-    glPopMatrix(); // Restore modelview matrix
-    glMatrixMode(GL_PROJECTION);
-    glPopMatrix(); // Restore projection matrix
-
-    printFPS(); // Print FPS
-    glutSwapBuffers(); // Swap buffers to display the rendered content
+	printFPS();		   // Print FPS
+	glutSwapBuffers(); // Swap buffers to display the rendered content
 }
 
 void Timer(int)
