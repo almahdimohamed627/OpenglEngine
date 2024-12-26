@@ -323,10 +323,14 @@ void Special(int key, int x, int y)
 
 void printFPS()
 {
+	glPushMatrix();
 	timeSinceStart = glutGet(GLUT_ELAPSED_TIME);
 	deltaTime = timeSinceStart - oldTimeSinceStart;
 	oldTimeSinceStart = timeSinceStart;
-	// std::cout << '\r' << 1000 / deltaTime << " " << Ex << " " << E << " " << Ez << std::flush;
+	char buffer[100];															 // Allocate a buffer for the formatted string
+	sprintf(buffer, "FPS:%d X:%.2f Y:%.2f Z:%.2f", 1000 / deltaTime, Ex, E, Ez); // Format the string
+	renderBitmapText(0.5, 0.95, buffer, GLUT_BITMAP_HELVETICA_18);				 // Pass the formatted string																				 // std::cout << '\r' << 1000 / deltaTime << " " << Ex << " " << E << " " << Ez << std::flush;
+	glPopMatrix();
 }
 
 void InitGL(void)
@@ -377,12 +381,13 @@ void DrawGLScene(void)
 	GLfloat position[] = {0, 10000, 0, 0}; // Light position
 	glLightfv(GL_LIGHT0, GL_POSITION, position);
 
-	gluLookAt(Ex, E, Ez, Ex + cos(th), E + 1.7, Ez + sin(th), 0, 1, 0); // Camera setup
+	gluLookAt(Ex, E, Ez, Ex + cos(th), E, Ez + sin(th), 0, 1, 0); // Camera setup
 
 	if (rotateScene)
 	{
 		glRotated(90, 0, 0, 1); // Rotate the scene if needed
 	}
+
 	// Draw the background grid
 	glPushMatrix();
 	glColor3f(0.7f, 0.7f, 0.7f); // Set the line color to gray
@@ -405,13 +410,13 @@ void DrawGLScene(void)
 		glVertex3f(300.0f, 0.0f, i * 2.0f);	 // Line end
 		glEnd();
 	}
-	glPopMatrix();
 
 	for (Circle *c : circles)
 	{
 		c->display();
 	}
 
+	glPopMatrix();
 	// --- Switch to 2D for UI rendering ---
 	glMatrixMode(GL_PROJECTION);
 	glPushMatrix();
@@ -436,17 +441,14 @@ void DrawGLScene(void)
 	// Render 2D UI elements (buttons, labels, etc.)
 	circle_button.display();
 	hello.display();
-
+	printFPS();		   // Print FPS
 	glEnable(GL_DEPTH_TEST); // Re-enable depth testing for 3D rendering after UI
 
 	glPopMatrix(); // Restore modelview matrix
 	glMatrixMode(GL_PROJECTION);
 	glPopMatrix(); // Restore projection matrix
-
-	printFPS();		   // Print FPS
 	glutSwapBuffers(); // Swap buffers to display the rendered content
 }
-
 void Timer(int)
 {
 	glutTimerFunc(16, Timer, 0);
