@@ -1,4 +1,4 @@
 cd /home/mohamed/Documents/vscode/c++/OpenglEngine
-g++ src/mainwindow.cpp  -Wall -g -lGL -lGLU -lglut -lncurses -o bin/debug/cg
+g++ src/*.cpp -Wall -g -lGL -lGLU -lglut -lncurses -o bin/debug/cg
 bin/debug/cg
 

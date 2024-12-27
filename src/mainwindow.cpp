@@ -1,141 +1,17 @@
+#include "globals.h"
 #include <GL/glut.h>
+#include <string>
 #include <math.h>
 #include <iostream>
-#include <cstdio> // For printf
-#include <string>
+#include <cstdio>
 #include <vector>
-
-double th = 0;
-double Ex = 0;
-double Ez = 0;
-double E = 0;
-double r = 0;
-double r2 = 0;
-int oldTimeSinceStart = 0;
-int timeSinceStart;
-int deltaTime;
-bool sprinting = false;
-bool light = false;
-bool lighting = false;
-bool rotateScene = false;
-bool OpDoorOpen = false;
-bool doorOpen = false;
-double roofT = 0;
-bool roof = false;
-double pos = 0.0;
-
-double ads[50];
-double sideAds[50];
-const char *adFile[50];
-GLuint adTexture[50];
-GLuint manchester_cityTexture;
-GLuint cameraTexture;
-
-GLUquadricObj *a = gluNewQuadric();
-int mouseX = 0, mouseY = 0;
-// Function to render bitmap text on the screen
-void renderBitmapText(float x, float y, const char *text, void *font)
-{
-	glRasterPos2f(x, y); // Set the position for the text
-	for (const char *c = text; *c != '\0'; c++)
-	{
-		glutBitmapCharacter(font, *c); // Render each character
-	}
-}
-class Entity {
-	protected: // Private members (default access specifier if omitted)
-	int translate_x = Ex, translate_y = E, translate_z = Ez;
-	int rotate_x = 0, rotate_y = 0, rotate_z = 0;
-	int scale_x = 1, scale_y = 1, scale_z = 1;
-	int red = 0, green = 0, blue = 0, alpha = 255;
-
-	public:
-	void transform()
-	{
-		glColor4ub(red, green, blue, alpha);
-		glTranslated(translate_x, translate_y, translate_z);
-		glRotated(rotate_x, 1, 0, 0);
-		glRotated(rotate_y, 0, 1, 0);
-		glRotated(rotate_z, 0, 0, 1);
-		glScaled(scale_x, scale_y, scale_z);
-	}
-
-	virtual void display() {
-		glutSolidTeapot(2);
-	}
-
-};
-class Circle : public Entity
-{
-private: // Private members (default access specifier if omitted)
-
-public: // Public members
-
-	void display()
-	{
-		glPushMatrix();
-		transform();
-		glutSolidSphere(1, 50, 50);
-		glPopMatrix();
-	}
-};
-
-class Button
-{
-private:			  // Private members (default access specifier if omitted)
-	std::string text; // Accessible only within the class
-	double x, y;
-
-public: // Public members
-	// Constructor
-	Button(std::string text, double x, double y)
-	{
-		this->text = text;
-		this->x = x;
-		this->y = y;
-	}
-	bool testCollision(void (*func)())
-	{
-		// Get the button's width
-		float buttonWidth = 20 + (this->text.length() * 9.0);
-		// Check if mouse is inside the button bounds
-		if (mouseX >= this->x && mouseX <= (this->x + buttonWidth) &&
-			mouseY >= this->y && -mouseY <= (this->y + 30))
-		{
-			func();
-			return true;
-		}
-		return false;
-	}
-
-	void display()
-	{
-		// Draw the filled square blue
-		glColor3ub(44.7, 93.1, 83.5);																// Set color to gray (R=0.5, G=0.5, B=0.5)
-		glBegin(GL_QUADS);																			// Start drawing a filled quadrilateral
-		glVertex2f((x - 750) / 750.0, (y - 400) / 400.0);											// Bottom-left corner
-		glVertex2f((x + 20 + (this->text.length() * 9.0) - 750.0) / 750.0, (y - 400) / 400.0);		// Bottom-right corner
-		glVertex2f((x + 20 + (this->text.length() * 9.0) - 750.0) / 750.0, (y + 30 - 400) / 400.0); // Top-right corner
-		glVertex2f((x - 750) / 750.0f, (y + 30 - 400) / 400.0);										// Top-left corner
-		glEnd();
-
-		// Draw the border (black color)
-		glColor3f(0.0f, 0.0f, 0.0f);																// Set color to black
-		glLineWidth(3.0f);																			// Set line thickness
-		glBegin(GL_LINE_LOOP);																		// Start drawing a looped line
-		glVertex2f((x - 750) / 750.0, (y - 400) / 400.0);											// Bottom-left corner
-		glVertex2f((x + 20 + (this->text.length() * 9.0) - 750.0) / 750.0, (y - 400) / 400.0);		// Bottom-right corner
-		glVertex2f((x + 20 + (this->text.length() * 9.0) - 750.0) / 750.0, (y + 30 - 400) / 400.0); // Top-right corner
-		glVertex2f((x - 750) / 750.0f, (y + 30 - 400) / 400.0);
-		glEnd();
-
-		renderBitmapText((x + 10 - 750) / 750.0, (y + 10 - 400) / 400.0, text.c_str(), GLUT_BITMAP_HELVETICA_18); // Large Helvetica
-	}
-};
+#include "bitmap.h"
+#include "Entity.h"
+#include "Sphere.h"
+#include "Button.h"
 
 std::vector<Entity *> entities;
-
-Button circle_button("Circle", 20, 20);
+Button Sphere_button("Sphere", 20, 20);
 Button hello("hello my name is mohamed", 20, 60);
 // Callback for mouse button clicks
 void mouseButton(int button, int state, int x, int y)
@@ -147,10 +23,10 @@ void mouseButton(int button, int state, int x, int y)
 		mouseX = x;
 		mouseY = y;
 
-		circle_button.testCollision(
+		Sphere_button.testCollision(
 			[]()
 			{
-				entities.push_back(new Circle());
+				entities.push_back(new Sphere());
 			});
 	}
 	else if (button == GLUT_RIGHT_BUTTON && state == GLUT_DOWN)
@@ -207,37 +83,6 @@ void keyboard(unsigned char key, int x, int y)
 			lighting = false;
 		else
 			lighting = true;
-		break;
-
-	case 'y':
-		if (OpDoorOpen)
-		{
-			OpDoorOpen = false;
-		}
-		else
-		{
-			OpDoorOpen = true;
-		}
-		break;
-	case 'c':
-		if (doorOpen)
-		{
-			doorOpen = false;
-		}
-		else
-		{
-			doorOpen = true;
-		}
-		break;
-	case 'p':
-		if (roof)
-		{
-			roof = false;
-		}
-		else
-		{
-			roof = true;
-		}
 		break;
 	case 'd':
 		if (sprinting)
@@ -378,6 +223,7 @@ void ReSizeGLScene(int w, int h)
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 }
+
 void DrawGLScene(void)
 {
 	glClearColor(1, 1, 1, 0.0f);						// Set background to white
@@ -448,16 +294,18 @@ void DrawGLScene(void)
 	glPopMatrix();
 
 	// Render 2D UI elements (buttons, labels, etc.)
-	circle_button.display();
+	Sphere_button.display();
 	hello.display();
-	printFPS();		   // Print FPS
+	printFPS();				 // Print FPS
 	glEnable(GL_DEPTH_TEST); // Re-enable depth testing for 3D rendering after UI
 
 	glPopMatrix(); // Restore modelview matrix
 	glMatrixMode(GL_PROJECTION);
-	glPopMatrix(); // Restore projection matrix
+	glPopMatrix();	   // Restore projection matrix
 	glutSwapBuffers(); // Swap buffers to display the rendered content
 }
+
+
 void Timer(int)
 {
 	glutTimerFunc(16, Timer, 0);
