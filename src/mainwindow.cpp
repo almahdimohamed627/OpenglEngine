@@ -159,6 +159,12 @@ void keyboard(unsigned char key, int x, int y)
 			Ez = Ez - 2 * sin(th);
 		}
 		break;
+		case '.':
+		Entity::selected(1);
+		break;
+		case ',':
+		Entity::selected(-1);
+		break;
 	default:
 		break;
 	}
