@@ -21,18 +21,21 @@ void mouseButton(int button, int state, int x, int y)
 	// Check which button is clicked
 	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN)
 	{
-		//printf("Left button pressed at (%d, %d)\n", x, y);
+		// printf("Left button pressed at (%d, %d)\n", x, y);
 		mouseX = x;
 		mouseY = y;
 		mouseTh = th;
 
-		if(Sphere_button.testCollision()) {
+		if (Sphere_button.testCollision())
+		{
 			entities.push_back(new Sphere());
 		}
-		else if(TeaPot_button.testCollision()) {
+		else if (TeaPot_button.testCollision())
+		{
 			entities.push_back(new Entity());
 		}
-		else if(Cube_button.testCollision()) {
+		else if (Cube_button.testCollision())
+		{
 			entities.push_back(new Cube());
 		}
 	}
@@ -51,8 +54,8 @@ void mouseButton(int button, int state, int x, int y)
 // Callback for mouse motion while holding a button
 void mouseMotion(int x, int y)
 {
-	//printf("Mouse dragged to (%d, %d)\n", x, y);
-	th = (x - mouseX)/360.0 + mouseTh;
+	// printf("Mouse dragged to (%d, %d)\n", x, y);
+	th = (x - mouseX) / 360.0 + mouseTh;
 }
 
 // Callback for mouse motion without holding a button
@@ -64,20 +67,20 @@ void passiveMouseMotion(int x, int y)
 // Mouse wheel callback function
 void mouseWheel(int wheel, int direction, int x, int y)
 {
-    if (direction > 0) // Scroll up
-    {
-        E += 1.0; // Move "up" along the y-axis or zoom in
-    }
-    else if (direction < 0) // Scroll down
-    {
-        E -= 1.0; // Move "down" along the y-axis or zoom out
-    }
+	if (direction > 0) // Scroll up
+	{
+		E += 1.0; // Move "up" along the y-axis or zoom in
+	}
+	else if (direction < 0) // Scroll down
+	{
+		E -= 1.0; // Move "down" along the y-axis or zoom out
+	}
 
-    // Print the new E value (optional)
-    printf("Mouse wheel scrolled. E = %.2f\n", E);
+	// Print the new E value (optional)
+	printf("Mouse wheel scrolled. E = %.2f\n", E);
 
-    // Update the scene
-    glutPostRedisplay();
+	// Update the scene
+	glutPostRedisplay();
 }
 
 void keyboard(unsigned char key, int x, int y)
@@ -159,12 +162,25 @@ void keyboard(unsigned char key, int x, int y)
 			Ez = Ez - 2 * sin(th);
 		}
 		break;
-		case '.':
+	case '.':
 		Entity::selected(1);
 		break;
-		case ',':
+	case ',':
 		Entity::selected(-1);
 		break;
+	case 'c':
+		int r, g, b, a;
+		std::cout << "Enter new color:" << std::endl;
+		std::cout << "red: " << std::flush;
+		std::cin >> r;
+		std::cout << "green: " << std::flush;
+		std::cin >> g;
+		std::cout << "blue: " << std::flush;
+		std::cin >> b;
+		std::cout << "alpha: " << std::flush;
+		std::cin >> a;
+		entities[Entity::selected()]->setColor(r, g, b, a);
+		 break;
 	default:
 		break;
 	}

@@ -20,6 +20,7 @@ public:
     static int selected();
     static int selected(int index);
     void transform();
+    void setColor(int red, int green, int blue, int alpha);
     virtual void display();
 };
 
