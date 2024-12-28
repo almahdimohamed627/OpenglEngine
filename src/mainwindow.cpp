@@ -1,5 +1,5 @@
 #include "globals.h"
-#include <GL/glut.h>
+#include <GL/freeglut.h>
 #include <string>
 #include <math.h>
 #include <iostream>
@@ -59,6 +59,25 @@ void mouseMotion(int x, int y)
 void passiveMouseMotion(int x, int y)
 {
 	// printf("Mouse moved to (%d, %d) without pressing any button\n", x, y);
+}
+
+// Mouse wheel callback function
+void mouseWheel(int wheel, int direction, int x, int y)
+{
+    if (direction > 0) // Scroll up
+    {
+        E += 1.0; // Move "up" along the y-axis or zoom in
+    }
+    else if (direction < 0) // Scroll down
+    {
+        E -= 1.0; // Move "down" along the y-axis or zoom out
+    }
+
+    // Print the new E value (optional)
+    printf("Mouse wheel scrolled. E = %.2f\n", E);
+
+    // Update the scene
+    glutPostRedisplay();
 }
 
 void keyboard(unsigned char key, int x, int y)
@@ -266,6 +285,7 @@ int main(int argc, char **argv)
 	glutMouseFunc(mouseButton);				   // For mouse button presses
 	glutMotionFunc(mouseMotion);			   // For mouse dragging (motion while holding a button)
 	glutPassiveMotionFunc(passiveMouseMotion); // For motion without button presses
+	glutMouseWheelFunc(mouseWheel);
 
 	Timer(0);
 	glutDisplayFunc(DrawGLScene);
