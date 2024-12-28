@@ -4,11 +4,11 @@
 Button::Button(const std::string &text, double x, double y)
     : text(text), x(x), y(y) {}
 
-bool Button::testCollision(std::function<void()> func) {
+bool Button::testCollision() {
     float buttonWidth = 20 + (this->text.length() * 9.0);
+    float buttonHight = this->y +30;
     if (mouseX >= this->x && mouseX <= (this->x + buttonWidth) &&
-        mouseY >= this->y && -mouseY <= (this->y + 30)) {
-        func();
+        mouseY <= 800-this->y && mouseY >= 800-buttonHight) {
         return true;
     }
     return false;

@@ -69,7 +69,8 @@ void DrawGLScene(void)
 
 	// Render 2D UI elements (buttons, labels, etc.)
 	Sphere_button.display();
-	hello.display();
+	TeaPot_button.display();
+    Cube_button.display();
 	printFPS();				 // Print FPS
 	glEnable(GL_DEPTH_TEST); // Re-enable depth testing for 3D rendering after UI
 

@@ -17,4 +17,5 @@ extern bool lighting;
 extern bool rotateScene;
 extern GLUquadricObj *a;
 extern int mouseX, mouseY;
+extern double mouseTh;
 #endif // GLOBALS_H

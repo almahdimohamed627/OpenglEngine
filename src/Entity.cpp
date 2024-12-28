@@ -16,5 +16,8 @@ void Entity::transform() {
 }
 
 void Entity::display() {
+    glPushMatrix();
+    transform();
     glutSolidTeapot(2);
+    glPopMatrix();
 }

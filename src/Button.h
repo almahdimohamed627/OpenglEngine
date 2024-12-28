@@ -13,7 +13,7 @@ private:
 
 public:
     Button(const std::string &text, double x, double y);
-    bool testCollision(std::function<void()> func);
+    bool testCollision();
     void display();
 };
 

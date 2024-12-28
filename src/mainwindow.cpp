@@ -8,26 +8,33 @@
 #include "bitmap.h"
 #include "Entity.h"
 #include "Sphere.h"
+#include "Cube.h"
 #include "Button.h"
 
 std::vector<Entity *> entities;
 Button Sphere_button("Sphere", 20, 20);
-Button hello("hello my name is mohamed", 20, 60);
+Button Cube_button("Cube", 20, 60);
+Button TeaPot_button("Tea Pot", 20, 100);
 // Callback for mouse button clicks
 void mouseButton(int button, int state, int x, int y)
 {
 	// Check which button is clicked
 	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN)
 	{
-		printf("Left button pressed at (%d, %d)\n", x, y);
+		//printf("Left button pressed at (%d, %d)\n", x, y);
 		mouseX = x;
 		mouseY = y;
+		mouseTh = th;
 
-		Sphere_button.testCollision(
-			[]()
-			{
-				entities.push_back(new Sphere());
-			});
+		if(Sphere_button.testCollision()) {
+			entities.push_back(new Sphere());
+		}
+		else if(TeaPot_button.testCollision()) {
+			entities.push_back(new Entity());
+		}
+		else if(Cube_button.testCollision()) {
+			entities.push_back(new Cube());
+		}
 	}
 	else if (button == GLUT_RIGHT_BUTTON && state == GLUT_DOWN)
 	{
@@ -44,7 +51,8 @@ void mouseButton(int button, int state, int x, int y)
 // Callback for mouse motion while holding a button
 void mouseMotion(int x, int y)
 {
-	printf("Mouse dragged to (%d, %d)\n", x, y);
+	//printf("Mouse dragged to (%d, %d)\n", x, y);
+	th = (x - mouseX)/360.0 + mouseTh;
 }
 
 // Callback for mouse motion without holding a button
@@ -87,24 +95,24 @@ void keyboard(unsigned char key, int x, int y)
 	case 'd':
 		if (sprinting)
 		{
-			Ex = Ex + 5 * sin(th);
+			Ex = Ex - 5 * sin(th);
 			Ez = Ez + 5 * cos(th);
 		}
 		else
 		{
-			Ex = Ex + 2 * sin(th);
+			Ex = Ex - 2 * sin(th);
 			Ez = Ez + 2 * cos(th);
 		}
 		break;
 	case 'a':
 		if (sprinting)
 		{
-			Ex = Ex - 5 * sin(th);
+			Ex = Ex + 5 * sin(th);
 			Ez = Ez - 5 * cos(th);
 		}
 		else
 		{
-			Ex = Ex - 2 * sin(th);
+			Ex = Ex + 2 * sin(th);
 			Ez = Ez - 2 * cos(th);
 		}
 		break;

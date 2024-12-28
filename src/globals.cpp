@@ -14,3 +14,4 @@ bool lighting = false;
 bool rotateScene = false;
 GLUquadricObj *a = gluNewQuadric();
 int mouseX = 0, mouseY = 0;
+double mouseTh =0;
