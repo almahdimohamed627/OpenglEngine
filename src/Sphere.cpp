@@ -2,7 +2,7 @@
 
 void Sphere::display() {
     glPushMatrix();
-    transform();
+    applyTransformation();
     glutSolidSphere(1, 50, 50);
     glPopMatrix();
 }

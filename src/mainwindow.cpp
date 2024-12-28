@@ -68,18 +68,31 @@ void passiveMouseMotion(int x, int y)
 // Mouse wheel callback function
 void mouseWheel(int wheel, int direction, int x, int y)
 {
-	if (direction > 0) // Scroll up
+	if (Transformation::get() != '_')
 	{
-		E += 1.0; // Move "up" along the y-axis or zoom in
+		if (direction > 0) // Scroll up
+		{
+			entities[Entity::selected()]->transform(Transformation::get(), Transformation::getX(), Transformation::getY(), Transformation::getZ(), +1);
+		}
+		else if (direction < 0) // Scroll down
+		{
+			entities[Entity::selected()]->transform(Transformation::get(), Transformation::getX(), Transformation::getY(), Transformation::getZ(), -1);
+		}
 	}
-	else if (direction < 0) // Scroll down
+	else
 	{
-		E -= 1.0; // Move "down" along the y-axis or zoom out
+		if (direction > 0) // Scroll up
+		{
+			E += 1.0; // Move "up" along the y-axis or zoom in
+		}
+		else if (direction < 0) // Scroll down
+		{
+			E -= 1.0; // Move "down" along the y-axis or zoom out
+		}
+
+		// Print the new E value (optional)
+		printf("Mouse wheel scrolled. E = %.2f\n", E);
 	}
-
-	// Print the new E value (optional)
-	printf("Mouse wheel scrolled. E = %.2f\n", E);
-
 	// Update the scene
 	glutPostRedisplay();
 }

@@ -67,3 +67,24 @@ void Transformation::set(char transformation)
 {
     applaid = transformation;
 }
+
+char Transformation::get()
+{
+    return applaid;
+}
+
+bool Transformation::getX()
+{
+    return onX;
+}
+
+bool Transformation::getY()
+{
+    return onY;
+}
+
+bool Transformation::getZ()
+{
+    return onZ;
+}
+

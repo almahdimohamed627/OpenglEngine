@@ -2,7 +2,7 @@
 
 void Cube::display() {
     glPushMatrix();
-    transform();
+    applyTransformation();
     glutSolidCube(1);
     glPopMatrix();
 }

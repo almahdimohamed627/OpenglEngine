@@ -8,7 +8,7 @@ class Entity {
 protected:
     int translate_x, translate_y, translate_z;
     int rotate_x, rotate_y, rotate_z;
-    int scale_x, scale_y, scale_z;
+    double scale_x, scale_y, scale_z;
     int red, green, blue, alpha;
     static int selectedIndex;
     static int count;
@@ -19,7 +19,8 @@ public:
     virtual ~Entity() = default;
     static int selected();
     static int selected(int index);
-    void transform();
+    void applyTransformation();
+    void transform(char transformation, bool x, bool y, bool z, int amount);
     void setColor(int red, int green, int blue, int alpha);
     virtual void display();
 };

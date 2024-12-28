@@ -16,6 +16,10 @@ public:
     static void toggleY();
     static void toggleZ();
     static void xyz();
+    static char get();
+    static bool getX();
+    static bool getY();
+    static bool getZ();
     static void set(char transformation);
 };
 

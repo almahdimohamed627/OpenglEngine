@@ -14,7 +14,7 @@ Entity::Entity()
     count += 1;
 }
 
-void Entity::transform()
+void Entity::applyTransformation()
 {
     glColor4ub(red, green, blue, alpha);
     if (selectedIndex == id)
@@ -31,7 +31,7 @@ void Entity::transform()
 void Entity::display()
 {
     glPushMatrix();
-    transform();
+    applyTransformation();
     glutSolidTeapot(2);
     glPopMatrix();
 }
@@ -59,4 +59,48 @@ void Entity::setColor(int red, int green, int blue, int alpha) {
     this->green=green;
     this->blue=blue;
     this->alpha=alpha;
+}
+
+void Entity::transform(char transformation, bool x, bool y, bool z, int amount) {
+    switch (transformation)
+    {
+    case 't':
+        if(x) {
+            translate_x+=amount;
+        }
+        if(y) {
+            translate_y+=amount;
+        }
+        if(z) {
+            translate_z+=amount;
+        }
+        break;
+    case 'r':
+        if(x) {
+            rotate_x+=amount;
+        }
+        if(y) {
+            rotate_y+=amount;
+        }
+        if(z) {
+            rotate_z+=amount;
+        }
+        break;
+    case 's':
+        if(x) {
+            scale_x+=amount*0.01;
+        }
+        if(y) {
+            scale_y+=amount*0.1;
+        }
+        if(z) {
+            scale_z+=amount*0.1;
+        }
+        break;
+    
+    default:
+        break;
+    }
+
+
 }
