@@ -1,7 +1,7 @@
 #ifndef GLOBALS_H
 #define GLOBALS_H
 
-#include <GL/glut.h>
+#include <GL/freeglut.h>
 
 // Declare global variables as extern
 extern double th;

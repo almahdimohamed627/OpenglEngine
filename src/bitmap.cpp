@@ -1,5 +1,5 @@
 #include "bitmap.h"
-#include <GL/glut.h> // Ensure GLUT is included for OpenGL functions
+#include <GL/freeglut.h> // Ensure GLUT is included for OpenGL functions
 
 // Define the function
 void renderBitmapText(float x, float y, const char *text, void *font)

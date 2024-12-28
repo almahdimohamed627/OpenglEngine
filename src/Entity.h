@@ -1,7 +1,7 @@
 #ifndef ENTITY_H
 #define ENTITY_H
 #include "globals.h"
-#include <GL/glut.h>
+#include <GL/freeglut.h>
 
 // Base Entity class
 class Entity {

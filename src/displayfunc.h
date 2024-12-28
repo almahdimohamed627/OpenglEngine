@@ -1,3 +1,5 @@
+
+
 void DrawGLScene(void)
 {
 	glClearColor(1, 1, 1, 0.0f);						// Set background to white
@@ -71,6 +73,7 @@ void DrawGLScene(void)
 	Sphere_button.display();
 	TeaPot_button.display();
     Cube_button.display();
+    Transformation::display();
 	printFPS();				 // Print FPS
 	glEnable(GL_DEPTH_TEST); // Re-enable depth testing for 3D rendering after UI
 

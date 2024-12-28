@@ -10,6 +10,7 @@
 #include "Sphere.h"
 #include "Cube.h"
 #include "Button.h"
+#include "Transformation.h"
 
 std::vector<Entity *> entities;
 Button Sphere_button("Sphere", 20, 20);
@@ -88,15 +89,9 @@ void keyboard(unsigned char key, int x, int y)
 	switch (key)
 	{
 	case 27: /* Escape key */
-		exit(0);
+		Transformation::reset();
 		break;
-	case 'q':
-		E++;
-		break;
-	case 'z':
-		E--;
-		break;
-	case 'r':
+	case 'R':
 		if (rotateScene)
 			rotateScene = false;
 		else
@@ -163,9 +158,11 @@ void keyboard(unsigned char key, int x, int y)
 		}
 		break;
 	case '.':
+		Transformation::reset();
 		Entity::selected(1);
 		break;
 	case ',':
+		Transformation::reset();
 		Entity::selected(-1);
 		break;
 	case 'c':
@@ -180,7 +177,27 @@ void keyboard(unsigned char key, int x, int y)
 		std::cout << "alpha: " << std::flush;
 		std::cin >> a;
 		entities[Entity::selected()]->setColor(r, g, b, a);
-		 break;
+		break;
+	case 't':
+		Transformation::set('t');
+		break;
+	case 'r':
+		Transformation::set('r');
+		break;
+	case 'e':
+		Transformation::set('s');
+		break;
+	case 'x':
+		Transformation::toggleX();
+		break;
+	case 'y':
+		Transformation::toggleY();
+		break;
+	case 'z':
+		Transformation::toggleZ();
+		break;
+	case 'q':
+		Transformation::xyz();
 	default:
 		break;
 	}

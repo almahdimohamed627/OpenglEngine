@@ -2,7 +2,7 @@
 #define BUTTON_H
 #include "globals.h"
 #include <string>
-#include <GL/glut.h>
+#include <GL/freeglut.h>
 #include <functional>
 #include "bitmap.h"
 
