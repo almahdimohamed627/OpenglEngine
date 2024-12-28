@@ -6,10 +6,10 @@
 // Base Entity class
 class Entity {
 protected:
-    int translate_x, translate_y, translate_z;
-    int rotate_x, rotate_y, rotate_z;
+    double translate_x, translate_y, translate_z;
+    double rotate_x, rotate_y, rotate_z;
     double scale_x, scale_y, scale_z;
-    int red, green, blue, alpha;
+    double red, green, blue, alpha;
     static int selectedIndex;
     static int count;
     int id;

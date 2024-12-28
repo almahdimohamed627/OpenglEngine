@@ -179,7 +179,7 @@ void keyboard(unsigned char key, int x, int y)
 		Entity::selected(-1);
 		break;
 	case 'c':
-		int r, g, b, a;
+		double r, g, b, a;
 		std::cout << "Enter new color:" << std::endl;
 		std::cout << "red: " << std::flush;
 		std::cin >> r;
