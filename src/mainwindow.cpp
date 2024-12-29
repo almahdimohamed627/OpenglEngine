@@ -209,6 +209,10 @@ void keyboard(unsigned char key, int x, int y)
 	case 3: //CTRL + C
 		entities.push_back(new Entity(entities[Entity::selected()]));
 		break;
+	case 127: //DELETE
+		entities.erase(entities.begin() + Entity::selected());
+		Entity::selected(-1);
+		break;
 	case 't':
 		Transformation::set('t');
 		break;
