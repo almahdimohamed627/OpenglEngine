@@ -14,6 +14,17 @@ Entity::Entity()
     count += 1;
 }
 
+Entity::Entity(Entity* e)
+    : translate_x(e->translate_x), translate_y(e->translate_y), translate_z(e->translate_z),
+      rotate_x(e->rotate_x), rotate_y(e->rotate_y), rotate_z(e->rotate_z),
+      scale_x(e->scale_x), scale_y(e->scale_y), scale_z(e->scale_z),
+      red(e->red), green(e->green), blue(e->blue), alpha(e->alpha)
+{
+    selectedIndex = count;
+    id = count;
+    count += 1;
+}
+
 void Entity::applyTransformation()
 {
     glColor4ub(red, green, blue, alpha);

@@ -16,6 +16,7 @@ protected:
 
 public:
     Entity();
+    Entity(Entity* e);
     virtual ~Entity() = default;
     static int selected();
     static int selected(int index);

@@ -18,18 +18,16 @@ Button Sphere_button("Sphere", 20, 20);
 Button Cube_button("Cube", 20, 60);
 Button TeaPot_button("Tea Pot", 20, 100);
 
-
-
 template <typename T>
-void input(T& value) {
-    while (!(std::cin >> value)) {
-        std::cout << "Invalid input. Please try again: ";
-        std::cin.clear(); 
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-    }
+void input(T &value)
+{
+	while (!(std::cin >> value))
+	{
+		std::cout << "Invalid input. Please try again: ";
+		std::cin.clear();
+		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+	}
 }
-
-
 
 // Callback for mouse button clicks
 void mouseButton(int button, int state, int x, int y)
@@ -199,7 +197,7 @@ void keyboard(unsigned char key, int x, int y)
 		std::cout << "red: " << std::flush;
 		input(r);
 		std::cout << "green: " << std::flush;
-	    input(g);
+		input(g);
 		std::cout << "blue: " << std::flush;
 		input(b);
 		std::cout << "alpha: " << std::flush;
@@ -207,6 +205,9 @@ void keyboard(unsigned char key, int x, int y)
 		entities[Entity::selected()]->setColor(r, g, b, a);
 		std::cout << "Color updated to R=" << r << ", G=" << g << ", B=" << b << ", A=" << a << std::endl;
 		std::cout << "done." << std::endl;
+		break;
+	case 3: //CTRL + C
+		entities.push_back(new Entity(entities[Entity::selected()]));
 		break;
 	case 't':
 		Transformation::set('t');
@@ -228,6 +229,7 @@ void keyboard(unsigned char key, int x, int y)
 		break;
 	case 'q':
 		Transformation::xyz();
+		break;
 	default:
 		break;
 	}
@@ -266,6 +268,11 @@ void Special(int key, int x, int y)
 			Ez = Ez - sin(th);
 		}
 		break;
+		/*
+	case GLUT_KEY_CTRL_L:
+		ctrl_down =true;
+		break;
+		*/
 	default:
 		break;
 	}
@@ -347,8 +354,8 @@ int main(int argc, char **argv)
 	InitGL();
 	glutReshapeFunc(ReSizeGLScene);
 
-	glutKeyboardFunc(keyboard);
 	glutSpecialFunc(Special);
+	glutKeyboardFunc(keyboard);
 
 	// Register mouse callbacks
 	glutMouseFunc(mouseButton);				   // For mouse button presses
