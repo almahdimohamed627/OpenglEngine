@@ -1,4 +1,7 @@
 #include "Entity.h"
+#include <typeinfo>
+#include <cstdio>
+#include "bitmap.h"
 
 int Entity::count = 0; // Definition of static variable
 int Entity::selectedIndex = 0;
@@ -25,6 +28,10 @@ Entity::Entity(Entity* e)
     count += 1;
 }
 
+Entity::~Entity() {
+    count--;
+}
+
 void Entity::applyTransformation()
 {
     glColor4ub(red, green, blue, alpha);
@@ -45,6 +52,12 @@ void Entity::display()
     applyTransformation();
     glutSolidTeapot(2);
     glPopMatrix();
+}
+
+void Entity::displayInfo() {
+    char buffer[100];    // Allocate a buffer for the formatted string
+    sprintf(buffer, "name:: %s", "hello"); // Format the string
+    renderBitmapText(0.8, -0.7, buffer, GLUT_BITMAP_HELVETICA_18);
 }
 
 int Entity::selected()

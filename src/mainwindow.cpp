@@ -85,11 +85,12 @@ void mouseWheel(int wheel, int direction, int x, int y)
 	{
 		if (direction > 0) // Scroll up
 		{
-			entities[Entity::selected()]->transform(Transformation::get(), Transformation::getX(), Transformation::getY(), Transformation::getZ(), +1);
+
+			!entities.empty() ? entities[Entity::selected()]->transform(Transformation::get(), Transformation::getX(), Transformation::getY(), Transformation::getZ(), +1) : donothing();
 		}
 		else if (direction < 0) // Scroll down
 		{
-			entities[Entity::selected()]->transform(Transformation::get(), Transformation::getX(), Transformation::getY(), Transformation::getZ(), -1);
+			!entities.empty() ? entities[Entity::selected()]->transform(Transformation::get(), Transformation::getX(), Transformation::getY(), Transformation::getZ(), -1) : donothing();
 		}
 	}
 	else
@@ -202,16 +203,20 @@ void keyboard(unsigned char key, int x, int y)
 		input(b);
 		std::cout << "alpha: " << std::flush;
 		input(a);
-		entities[Entity::selected()]->setColor(r, g, b, a);
+		!entities.empty() ? entities[Entity::selected()]->setColor(r, g, b, a) : donothing();
 		std::cout << "Color updated to R=" << r << ", G=" << g << ", B=" << b << ", A=" << a << std::endl;
 		std::cout << "done." << std::endl;
 		break;
-	case 3: //CTRL + C
-		entities.push_back(new Entity(entities[Entity::selected()]));
+	case 3: // CTRL + C
+		!entities.empty() ? entities.push_back(new Entity(entities[Entity::selected()])) : donothing();
 		break;
-	case 127: //DELETE
-		entities.erase(entities.begin() + Entity::selected());
-		Entity::selected(-1);
+	case 127: // DELETE
+		if (!entities.empty())
+		{
+			delete entities[Entity::selected()];
+			entities.erase(entities.begin() + Entity::selected());
+			Entity::selected(-1);
+		}
 		break;
 	case 't':
 		Transformation::set('t');

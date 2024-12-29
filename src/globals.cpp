@@ -16,3 +16,6 @@ GLUquadricObj *a = gluNewQuadric();
 int mouseX = 0, mouseY = 0;
 double mouseTh =0;
 bool ctrl_down = false;
+void donothing() {
+    return;
+}

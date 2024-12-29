@@ -17,13 +17,15 @@ protected:
 public:
     Entity();
     Entity(Entity* e);
-    virtual ~Entity() = default;
+
+    virtual ~Entity();
     static int selected();
     static int selected(int index);
     void applyTransformation();
     void transform(char transformation, bool x, bool y, bool z, int amount);
     void setColor(int red, int green, int blue, int alpha);
     virtual void display();
+    virtual void displayInfo();
 };
 
 #endif

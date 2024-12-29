@@ -19,4 +19,6 @@ extern GLUquadricObj *a;
 extern int mouseX, mouseY;
 extern double mouseTh;
 extern bool ctrl_down;
+extern void donothing();
+
 #endif // GLOBALS_H
