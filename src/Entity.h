@@ -1,5 +1,6 @@
 #ifndef ENTITY_H
 #define ENTITY_H
+#include <string>
 #include "globals.h"
 #include <GL/freeglut.h>
 
@@ -15,6 +16,7 @@ protected:
     int id;
 
 public:
+    std::string name; 
     Entity();
     Entity(Entity* e);
 

@@ -1,5 +1,10 @@
 #include "Sphere.h"
 
+Sphere::Sphere() : Entity()
+{
+    name = "Sphere";
+}
+
 void Sphere::display() {
     glPushMatrix();
     applyTransformation();

@@ -5,6 +5,7 @@
 
 class Sphere : public Entity {
 public:
+    Sphere();
     void display() override;
 };
 

@@ -5,6 +5,7 @@
 
 class Cube : public Entity {
 public:
+    Cube();
     void display() override;
 };
 
