@@ -5,6 +5,7 @@
 #include <iostream>
 #include <cstdio>
 #include <vector>
+#include <limits> // For std::numeric_limits
 #include "bitmap.h"
 #include "Entity.h"
 #include "Sphere.h"
@@ -16,6 +17,20 @@ std::vector<Entity *> entities;
 Button Sphere_button("Sphere", 20, 20);
 Button Cube_button("Cube", 20, 60);
 Button TeaPot_button("Tea Pot", 20, 100);
+
+
+
+template <typename T>
+void input(T& value) {
+    while (!(std::cin >> value)) {
+        std::cout << "Invalid input. Please try again: ";
+        std::cin.clear(); 
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    }
+}
+
+
+
 // Callback for mouse button clicks
 void mouseButton(int button, int state, int x, int y)
 {
@@ -182,14 +197,16 @@ void keyboard(unsigned char key, int x, int y)
 		double r, g, b, a;
 		std::cout << "Enter new color:" << std::endl;
 		std::cout << "red: " << std::flush;
-		std::cin >> r;
+		input(r);
 		std::cout << "green: " << std::flush;
-		std::cin >> g;
+	    input(g);
 		std::cout << "blue: " << std::flush;
-		std::cin >> b;
+		input(b);
 		std::cout << "alpha: " << std::flush;
-		std::cin >> a;
+		input(a);
 		entities[Entity::selected()]->setColor(r, g, b, a);
+		std::cout << "Color updated to R=" << r << ", G=" << g << ", B=" << b << ", A=" << a << std::endl;
+		std::cout << "done." << std::endl;
 		break;
 	case 't':
 		Transformation::set('t');
