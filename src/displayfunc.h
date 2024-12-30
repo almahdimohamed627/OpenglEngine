@@ -42,7 +42,7 @@ void DrawGLScene(void)
 		glEnd();
 	}
 
-	for (Entity *e : entities)
+	for (Shape *e : entities)
 	{
 		e->display();
 	}
@@ -74,7 +74,7 @@ void DrawGLScene(void)
 	TeaPot_button.display();
     Cube_button.display();
     Transformation::display();
-    !entities.empty()? entities[Entity::selected()]->displayInfo() : donothing() ;
+    !entities.empty()? entities[Shape::selected()]->displayInfo() : donothing() ;
 	printFPS();				 // Print FPS
 	glEnable(GL_DEPTH_TEST); // Re-enable depth testing for 3D rendering after UI
 

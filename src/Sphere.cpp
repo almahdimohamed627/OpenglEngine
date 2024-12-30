@@ -1,11 +1,12 @@
 #include "Sphere.h"
 
-Sphere::Sphere() : Entity()
+Sphere::Sphere() : Shape()
 {
-    name = "Sphere";
+    type = "Sphere";
 }
 
-void Sphere::display() {
+void Sphere::display()
+{
     glPushMatrix();
     applyTransformation();
     glutSolidSphere(1, 50, 50);

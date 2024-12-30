@@ -1,9 +1,9 @@
 #ifndef CUBE_H
 #define CUBE_H
 #include "globals.h"
-#include "Entity.h"
+#include "Shape.h"
 
-class Cube : public Entity {
+class Cube : public Shape {
 public:
     Cube();
     void display() override;

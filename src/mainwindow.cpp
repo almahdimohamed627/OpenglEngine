@@ -8,12 +8,13 @@
 #include <limits> // For std::numeric_limits
 #include "bitmap.h"
 #include "Entity.h"
+#include "Shape.h"
 #include "Sphere.h"
 #include "Cube.h"
 #include "Button.h"
 #include "Transformation.h"
 
-std::vector<Entity *> entities;
+std::vector<Shape *> entities;
 Button Sphere_button("Sphere", 20, 20);
 Button Cube_button("Cube", 20, 60);
 Button TeaPot_button("Tea Pot", 20, 100);
@@ -46,7 +47,7 @@ void mouseButton(int button, int state, int x, int y)
 		}
 		else if (TeaPot_button.testCollision())
 		{
-			entities.push_back(new Entity());
+			entities.push_back(new Shape());
 		}
 		else if (Cube_button.testCollision())
 		{
@@ -86,11 +87,11 @@ void mouseWheel(int wheel, int direction, int x, int y)
 		if (direction > 0) // Scroll up
 		{
 
-			!entities.empty() ? entities[Entity::selected()]->transform(Transformation::get(), Transformation::getX(), Transformation::getY(), Transformation::getZ(), +1) : donothing();
+			!entities.empty() ? entities[Shape::selected()]->transform(Transformation::get(), Transformation::getX(), Transformation::getY(), Transformation::getZ(), +1) : donothing();
 		}
 		else if (direction < 0) // Scroll down
 		{
-			!entities.empty() ? entities[Entity::selected()]->transform(Transformation::get(), Transformation::getX(), Transformation::getY(), Transformation::getZ(), -1) : donothing();
+			!entities.empty() ? entities[Shape::selected()]->transform(Transformation::get(), Transformation::getX(), Transformation::getY(), Transformation::getZ(), -1) : donothing();
 		}
 	}
 	else
@@ -186,11 +187,11 @@ void keyboard(unsigned char key, int x, int y)
 		break;
 	case '.':
 		Transformation::reset();
-		Entity::selected(1);
+		Shape::selected(1);
 		break;
 	case ',':
 		Transformation::reset();
-		Entity::selected(-1);
+		Shape::selected(-1);
 		break;
 	case 'c':
 		double r, g, b, a;
@@ -203,19 +204,19 @@ void keyboard(unsigned char key, int x, int y)
 		input(b);
 		std::cout << "alpha: " << std::flush;
 		input(a);
-		!entities.empty() ? entities[Entity::selected()]->setColor(r, g, b, a) : donothing();
+		!entities.empty() ? entities[Shape::selected()]->setColor(r, g, b, a) : donothing();
 		std::cout << "Color updated to R=" << r << ", G=" << g << ", B=" << b << ", A=" << a << std::endl;
 		std::cout << "done." << std::endl;
 		break;
 	case 3: // CTRL + C
-		!entities.empty() ? entities.push_back(new Entity(entities[Entity::selected()])) : donothing();
+		!entities.empty() ? entities.push_back(new Shape(entities[Shape::selected()])) : donothing();
 		break;
 	case 127: // DELETE
 		if (!entities.empty())
 		{
-			delete entities[Entity::selected()];
-			entities.erase(entities.begin() + Entity::selected());
-			Entity::selected(-1);
+			delete entities[Shape::selected()];
+			entities.erase(entities.begin() + Shape::selected());
+			Shape::selected(-1);
 		}
 		break;
 	case 't':

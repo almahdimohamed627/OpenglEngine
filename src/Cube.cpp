@@ -1,10 +1,11 @@
 #include "Cube.h"
 
-Cube::Cube() : Entity()
+Cube::Cube() : Shape()
 {
-    name ="Cube";
+    type ="Cube";
 }
-void Cube::display() {
+void Cube::display()
+{
     glPushMatrix();
     applyTransformation();
     glutSolidCube(1);

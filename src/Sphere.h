@@ -1,9 +1,9 @@
 #ifndef SPHERE_H
 #define SPHERE_H
 #include "globals.h"
-#include "Entity.h"
+#include "Shape.h"
 
-class Sphere : public Entity {
+class Sphere : public Shape {
 public:
     Sphere();
     void display() override;

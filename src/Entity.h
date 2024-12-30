@@ -10,22 +10,20 @@ protected:
     double translate_x, translate_y, translate_z;
     double rotate_x, rotate_y, rotate_z;
     double scale_x, scale_y, scale_z;
-    double red, green, blue, alpha;
+    std::string type; 
+    std::string name;
+    int id, p_id;
     static int selectedIndex;
     static int count;
-    int id;
 
 public:
-    std::string name; 
     Entity();
     Entity(Entity* e);
-
     virtual ~Entity();
     static int selected();
     static int selected(int index);
-    void applyTransformation();
+    virtual void applyTransformation();
     void transform(char transformation, bool x, bool y, bool z, int amount);
-    void setColor(int red, int green, int blue, int alpha);
     virtual void display();
     virtual void displayInfo();
 };
