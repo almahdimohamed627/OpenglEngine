@@ -42,7 +42,7 @@ void DrawGLScene(void)
 		glEnd();
 	}
 
-	for (Shape *e : entities)
+	for (Entity *e : entities)
 	{
 		e->display();
 	}

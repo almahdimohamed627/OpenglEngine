@@ -2,7 +2,7 @@
 
 Sphere::Sphere() : Shape()
 {
-    type = "Sphere";
+    name = "Sphere";
 }
 
 void Sphere::display()

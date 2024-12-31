@@ -9,12 +9,14 @@
 #include "bitmap.h"
 #include "Entity.h"
 #include "Shape.h"
+#include "List.h"
 #include "Sphere.h"
 #include "Cube.h"
 #include "Button.h"
 #include "Transformation.h"
+#include <exception>
 
-std::vector<Shape *> entities;
+std::vector<Entity *> entities;
 Button Sphere_button("Sphere", 20, 20);
 Button Cube_button("Cube", 20, 60);
 Button TeaPot_button("Tea Pot", 20, 100);
@@ -194,22 +196,29 @@ void keyboard(unsigned char key, int x, int y)
 		Shape::selected(-1);
 		break;
 	case 'c':
-		double r, g, b, a;
-		std::cout << "Enter new color:" << std::endl;
-		std::cout << "red: " << std::flush;
-		input(r);
-		std::cout << "green: " << std::flush;
-		input(g);
-		std::cout << "blue: " << std::flush;
-		input(b);
-		std::cout << "alpha: " << std::flush;
-		input(a);
-		!entities.empty() ? entities[Shape::selected()]->setColor(r, g, b, a) : donothing();
-		std::cout << "Color updated to R=" << r << ", G=" << g << ", B=" << b << ", A=" << a << std::endl;
-		std::cout << "done." << std::endl;
+		if (!entities.empty() && entities[Entity::selected()]->getType() == "Shape")
+		{
+			double r, g, b, a;
+			std::cout << "Enter new color:" << std::endl;
+			std::cout << "red: " << std::flush;
+			input(r);
+			std::cout << "green: " << std::flush;
+			input(g);
+			std::cout << "blue: " << std::flush;
+			input(b);
+			std::cout << "alpha: " << std::flush;
+			input(a);
+			dynamic_cast<Shape*>(entities[Entity::selected()])->setColor(r, g, b, a);
+			std::cout << "Color updated to R=" << r << ", G=" << g << ", B=" << b << ", A=" << a << std::endl;
+			std::cout << "done." << std::endl;
+		}
+		else
+		{
+			std::cout << "there is no entities or the selected entity is a list not a shape.." << std::endl;
+		}
 		break;
 	case 3: // CTRL + C
-		!entities.empty() ? entities.push_back(new Shape(entities[Shape::selected()])) : donothing();
+		!entities.empty() ? entities.push_back(new Entity(entities[Entity::selected()])) : donothing();
 		break;
 	case 127: // DELETE
 		if (!entities.empty())

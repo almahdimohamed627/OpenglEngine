@@ -2,7 +2,7 @@
 
 Cube::Cube() : Shape()
 {
-    type ="Cube";
+    name ="Cube";
 }
 void Cube::display()
 {

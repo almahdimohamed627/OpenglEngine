@@ -22,6 +22,7 @@ public:
     virtual ~Entity();
     static int selected();
     static int selected(int index);
+    std::string getType();
     virtual void applyTransformation();
     void transform(char transformation, bool x, bool y, bool z, int amount);
     virtual void display();

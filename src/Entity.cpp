@@ -9,7 +9,7 @@ int Entity::selectedIndex = 0;
 Entity::Entity()
     : translate_x(Ex), translate_y(E), translate_z(Ez),
       rotate_x(0), rotate_y(0), rotate_z(0),
-      scale_x(1), scale_y(1), scale_z(1), type("Entity"), name("General"), p_id(0)
+      scale_x(1), scale_y(1), scale_z(1), type("Entity"), name("General"), p_id(-1)
 {
     selectedIndex = count;
     id = count;
@@ -33,7 +33,7 @@ Entity::~Entity()
 
 void Entity::applyTransformation()
 {
-    if (selectedIndex == id)
+    if (selectedIndex == id || selectedIndex == p_id)
     {
         glColor4ub(255, 0, 0, 150);
     }
@@ -54,7 +54,7 @@ void Entity::display()
 
 void Entity::displayInfo()
 {
-    char buffer[1000];                      // Allocate a buffer for the formatted string
+    char buffer[1000];                                                                                                                                                                                                                                                     // Allocate a buffer for the formatted string
     sprintf(buffer, "type: %s | name: %s | x:%.2f y:%.2f z:%.2f | rotation: x:%.2f y:%.2f z:%.2f | scale: x:%.2f y:%.2f z:%.2f ", this->type.c_str(), this->name.c_str(), translate_x, translate_y, translate_z, rotate_x, rotate_y, rotate_z, scale_x, scale_y, scale_z); // Format the string
     renderBitmapText(-0.75, -0.98, buffer, GLUT_BITMAP_HELVETICA_18);
 }
@@ -76,7 +76,6 @@ int Entity::selected(int index)
     }
     return selectedIndex;
 }
-
 
 void Entity::transform(char transformation, bool x, bool y, bool z, int amount)
 {
@@ -128,4 +127,9 @@ void Entity::transform(char transformation, bool x, bool y, bool z, int amount)
     default:
         break;
     }
+}
+
+std::string Entity::getType()
+{
+    return type;
 }
