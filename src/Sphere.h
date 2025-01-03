@@ -6,6 +6,7 @@
 class Sphere : public Shape {
 public:
     Sphere();
+    Sphere(int p_id);
     void display() override;
 };
 

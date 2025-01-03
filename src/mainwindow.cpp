@@ -17,13 +17,20 @@
 #include <exception>
 
 std::vector<Entity *> entities;
-Button Sphere_button("Sphere", 20, 20);
-Button Cube_button("Cube", 20, 60);
-Button TeaPot_button("Tea Pot", 20, 100);
+Button sphere_button("Sphere", 20, 800 - 40);
+Button cube_button("Cube", 20, 800 - 80);
+Button teaPot_button("Tea Pot", 20, 800 - 120);
+
+Button newList_button("New List", 20, 100);
+Button lists_button("Lists", 20, 60);
 
 template <typename T>
 void input(T &value)
 {
+	if constexpr (std::is_same<T, std::string>::value) {
+        std::getline(std::cin, value); // Read the whole line (including spaces)
+		return;
+    }
 	while (!(std::cin >> value))
 	{
 		std::cout << "Invalid input. Please try again: ";
@@ -43,17 +50,47 @@ void mouseButton(int button, int state, int x, int y)
 		mouseY = y;
 		mouseTh = th;
 
-		if (Sphere_button.testCollision())
+		if (sphere_button.testCollision())
 		{
-			entities.push_back(new Sphere());
+			if (modeList)
+			{
+				dynamic_cast<List*>(entities[ListID])->pushEntity(new Sphere(ListID));
+			}
+			else
+			{
+				entities.push_back(new Sphere());
+			}
 		}
-		else if (TeaPot_button.testCollision())
+		else if (teaPot_button.testCollision())
 		{
-			entities.push_back(new Shape());
+			if (modeList)
+			{
+				dynamic_cast<List*>(entities[ListID])->pushEntity(new Entity(ListID));
+			}
+			else
+			{
+				entities.push_back(new Entity());
+			}
 		}
-		else if (Cube_button.testCollision())
+		else if (cube_button.testCollision())
 		{
-			entities.push_back(new Cube());
+			if (modeList)
+			{
+				dynamic_cast<List*>(entities[ListID])->pushEntity(new Cube(ListID));
+			}
+			else
+			{
+				entities.push_back(new Cube());
+			}
+		}
+		else if (newList_button.testCollision())
+		{
+			std::cout << "Enter New List Name: " << std::flush;
+			std::string listName;
+			input(listName);
+			entities.push_back(new List(listName));
+			ListID = entities.back()->getId();
+			modeList = true;
 		}
 	}
 	else if (button == GLUT_RIGHT_BUTTON && state == GLUT_DOWN)
@@ -208,7 +245,7 @@ void keyboard(unsigned char key, int x, int y)
 			input(b);
 			std::cout << "alpha: " << std::flush;
 			input(a);
-			dynamic_cast<Shape*>(entities[Entity::selected()])->setColor(r, g, b, a);
+			dynamic_cast<Shape *>(entities[Entity::selected()])->setColor(r, g, b, a);
 			std::cout << "Color updated to R=" << r << ", G=" << g << ", B=" << b << ", A=" << a << std::endl;
 			std::cout << "done." << std::endl;
 		}

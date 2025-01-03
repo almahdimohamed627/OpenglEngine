@@ -4,6 +4,8 @@
 #include <GL/freeglut.h>
 
 // Declare global variables as extern
+extern bool modeList;
+extern int ListID;
 extern double th;
 extern double Ex;
 extern double Ez;

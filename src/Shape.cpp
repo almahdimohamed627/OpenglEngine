@@ -9,6 +9,11 @@ Shape::Shape()
     this->type = "Shape";
     this->name = "General";
 }
+Shape::Shape(int p_id) : Entity(p_id), red(0), green(0), blue(0), alpha(255)
+{
+    this->type = "Shape";
+    this->name = "General";
+}
 
 Shape::Shape(Shape *e)
     : Entity(e), red(e->red), green(e->green), blue(e->blue), alpha(e->alpha)

@@ -16,6 +16,16 @@ Entity::Entity()
     count += 1;
 }
 
+Entity::Entity(int p_id)
+    : translate_x(Ex), translate_y(E), translate_z(Ez),
+      rotate_x(0), rotate_y(0), rotate_z(0),
+      scale_x(1), scale_y(1), scale_z(1), type("Entity"), name("General"), p_id(p_id)
+{
+    selectedIndex = count;
+    id = count;
+    count += 1;
+}
+
 Entity::Entity(Entity *e)
     : translate_x(e->translate_x), translate_y(e->translate_y), translate_z(e->translate_z),
       rotate_x(e->rotate_x), rotate_y(e->rotate_y), rotate_z(e->rotate_z),
@@ -132,4 +142,14 @@ void Entity::transform(char transformation, bool x, bool y, bool z, int amount)
 std::string Entity::getType()
 {
     return type;
+}
+
+int Entity::getId()
+{
+    return id;
+}
+
+std::string Entity::getName()
+{
+    return name;
 }

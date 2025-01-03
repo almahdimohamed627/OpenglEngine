@@ -6,6 +6,7 @@
 class Cube : public Shape {
 public:
     Cube();
+    Cube(int p_id);
     void display() override;
 };
 

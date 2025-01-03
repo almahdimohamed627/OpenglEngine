@@ -12,6 +12,7 @@ protected:
 
 public:
     Shape();
+    Shape(int p_id);
     Shape(Shape* e);
     void setColor(int red, int green, int blue, int alpha);
     void applyTransformation() override;

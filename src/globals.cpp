@@ -1,6 +1,8 @@
 #include "globals.h"
 
 // Define global variables
+ bool modeList = false;
+ int ListID = -1;
 double th = 0;
 double Ex = 0;
 double Ez = 0;

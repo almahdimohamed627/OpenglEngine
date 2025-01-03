@@ -18,10 +18,13 @@ protected:
 
 public:
     Entity();
+    Entity(int p_id);
     Entity(Entity* e);
     virtual ~Entity();
     static int selected();
     static int selected(int index);
+    int getId();
+    std::string getName();
     std::string getType();
     virtual void applyTransformation();
     void transform(char transformation, bool x, bool y, bool z, int amount);
