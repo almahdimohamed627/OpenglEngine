@@ -5,10 +5,16 @@ Sphere::Sphere() : Shape()
     name = "Sphere";
 }
 
-Sphere::Sphere(int p_id) : Shape(p_id)
+Sphere::Sphere(double x, double y, double z) : Shape(x, y, z)
 {
     name = "Sphere";
 }
+
+Sphere::Sphere(Entity *p_perant, double x, double y, double z) : Shape(p_perant, x, y, z)
+{
+    name = "Sphere";
+}
+Sphere::Sphere(Sphere *e) : Shape(e) {}
 
 void Sphere::display()
 {
@@ -16,4 +22,9 @@ void Sphere::display()
     applyTransformation();
     glutSolidSphere(1, 50, 50);
     glPopMatrix();
+}
+
+Sphere *Sphere::clone()
+{
+    return new Sphere(this);
 }

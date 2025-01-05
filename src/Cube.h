@@ -6,8 +6,11 @@
 class Cube : public Shape {
 public:
     Cube();
-    Cube(int p_id);
+    Cube(double x, double y, double z);
+    Cube(Entity *p_perant, double x, double y, double z);
+    Cube(Cube *e);
     void display() override;
+    Cube* clone() override;
 };
 
 #endif

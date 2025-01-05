@@ -9,7 +9,15 @@ Shape::Shape()
     this->type = "Shape";
     this->name = "General";
 }
-Shape::Shape(int p_id) : Entity(p_id), red(0), green(0), blue(0), alpha(255)
+
+Shape::Shape(double x, double y, double z)
+    : Entity(x, y, z), red(0), green(0), blue(0), alpha(255)
+{
+    this->type = "Shape";
+    this->name = "General";
+}
+
+Shape::Shape(Entity *p_perant, double x, double y, double z) : Entity(p_perant, x, y, z), red(0), green(0), blue(0), alpha(255)
 {
     this->type = "Shape";
     this->name = "General";
@@ -45,6 +53,11 @@ void Shape::setColor(int red, int green, int blue, int alpha)
 void Shape::displayInfo()
 {
     char buffer[1000];                                                                                                                                                                                                                                                                                                                       // Allocate a buffer for the formatted string
-    sprintf(buffer, "type: %s | name: %s | x:%.2f y:%.2f z:%.2f | rotation: x:%.2f y:%.2f z:%.2f | scale: x:%.2f y:%.2f z:%.2f | color: R:%.2f G:%.2f B:%.2f Alpha:%.2f ", this->type.c_str(), this->name.c_str(), translate_x, translate_y, translate_z, rotate_x, rotate_y, rotate_z, scale_x, scale_y, scale_z, red, green, blue, alpha); // Format the string
+    sprintf(buffer, "#%d type: %s | name: %s | x:%.2f y:%.2f z:%.2f | rotation: x:%.2f y:%.2f z:%.2f | scale: x:%.2f y:%.2f z:%.2f | color: R:%.2f G:%.2f B:%.2f Alpha:%.2f ", this->id, this->type.c_str(), this->name.c_str(), translate_x, translate_y, translate_z, rotate_x, rotate_y, rotate_z, scale_x, scale_y, scale_z, red, green, blue, alpha); // Format the string
     renderBitmapText(-0.75, -0.98, buffer, GLUT_BITMAP_HELVETICA_18);
+}
+
+Shape *Shape::clone()
+{
+    return new Shape(this);
 }

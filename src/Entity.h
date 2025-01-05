@@ -12,24 +12,31 @@ protected:
     double scale_x, scale_y, scale_z;
     std::string type; 
     std::string name;
+    Entity *p_perant;
     int id, p_id;
     static int selectedIndex;
     static int count;
 
 public:
     Entity();
-    Entity(int p_id);
+    Entity(double x, double y, double z);
+    Entity(Entity *p_perant, double x, double y, double z);
     Entity(Entity* e);
     virtual ~Entity();
     static int selected();
-    static int selected(int index);
+    static void selected(int index);
     int getId();
+    Entity* getPerant();
     std::string getName();
     std::string getType();
+    double getX(); double getY(); double getZ();
     virtual void applyTransformation();
     void transform(char transformation, bool x, bool y, bool z, int amount);
+    void translate(double x, double y, double z);
     virtual void display();
     virtual void displayInfo();
+    virtual Entity* clone() = 0; // Pure virtual method
+
 };
 
 #endif

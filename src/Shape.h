@@ -12,12 +12,14 @@ protected:
 
 public:
     Shape();
-    Shape(int p_id);
+    Shape(double x, double y, double z);
+    Shape(Entity *p_perant, double x, double y, double z);
     Shape(Shape* e);
     void setColor(int red, int green, int blue, int alpha);
     void applyTransformation() override;
     void display() override;
     void displayInfo() override;
+    Shape* clone() override;
 };
 
 #endif

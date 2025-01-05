@@ -4,7 +4,7 @@
 #include <math.h>
 #include <iostream>
 #include <cstdio>
-#include <vector>
+#include "MyVector.h"
 #include <limits> // For std::numeric_limits
 #include "bitmap.h"
 #include "Entity.h"
@@ -16,7 +16,7 @@
 #include "Transformation.h"
 #include <exception>
 
-std::vector<Entity *> entities;
+MyVector entities;
 Button sphere_button("Sphere", 20, 800 - 40);
 Button cube_button("Cube", 20, 800 - 80);
 Button teaPot_button("Tea Pot", 20, 800 - 120);
@@ -27,10 +27,11 @@ Button lists_button("Lists", 20, 60);
 template <typename T>
 void input(T &value)
 {
-	if constexpr (std::is_same<T, std::string>::value) {
-        std::getline(std::cin, value); // Read the whole line (including spaces)
+	if constexpr (std::is_same<T, std::string>::value)
+	{
+		std::getline(std::cin, value); // Read the whole line (including spaces)
 		return;
-    }
+	}
 	while (!(std::cin >> value))
 	{
 		std::cout << "Invalid input. Please try again: ";
@@ -54,33 +55,33 @@ void mouseButton(int button, int state, int x, int y)
 		{
 			if (modeList)
 			{
-				dynamic_cast<List*>(entities[ListID])->pushEntity(new Sphere(ListID));
+				dynamic_cast<List *>(entities[ListID])->pushEntity(new Sphere(entities[ListID], Ex, E, Ez));
 			}
 			else
 			{
-				entities.push_back(new Sphere());
+				entities += new Sphere(Ex, E, Ez);
 			}
 		}
 		else if (teaPot_button.testCollision())
 		{
 			if (modeList)
 			{
-				dynamic_cast<List*>(entities[ListID])->pushEntity(new Entity(ListID));
+				// dynamic_cast<List *>(entities[ListID])->pushEntity(new Entity(ListID));
 			}
 			else
 			{
-				entities.push_back(new Entity());
+				// entities += new Entity();
 			}
 		}
 		else if (cube_button.testCollision())
 		{
 			if (modeList)
 			{
-				dynamic_cast<List*>(entities[ListID])->pushEntity(new Cube(ListID));
+				dynamic_cast<List *>(entities[ListID])->pushEntity(new Cube(entities[ListID], Ex, E, Ez));
 			}
 			else
 			{
-				entities.push_back(new Cube());
+				entities += new Cube(Ex, E, Ez);
 			}
 		}
 		else if (newList_button.testCollision())
@@ -88,7 +89,7 @@ void mouseButton(int button, int state, int x, int y)
 			std::cout << "Enter New List Name: " << std::flush;
 			std::string listName;
 			input(listName);
-			entities.push_back(new List(listName));
+			entities += new List(listName);
 			ListID = entities.back()->getId();
 			modeList = true;
 		}
@@ -125,12 +126,25 @@ void mouseWheel(int wheel, int direction, int x, int y)
 	{
 		if (direction > 0) // Scroll up
 		{
-
-			!entities.empty() ? entities[Shape::selected()]->transform(Transformation::get(), Transformation::getX(), Transformation::getY(), Transformation::getZ(), +1) : donothing();
+			if (modeList)
+			{
+				dynamic_cast<List *>(entities[ListID])->m_entities[Entity::selected()]->transform(Transformation::get(), Transformation::getX(), Transformation::getY(), Transformation::getZ(), +1);
+			}
+			else
+			{
+				!entities.empty() ? entities[Entity::selected()]->transform(Transformation::get(), Transformation::getX(), Transformation::getY(), Transformation::getZ(), +1) : donothing();
+			}
 		}
 		else if (direction < 0) // Scroll down
 		{
-			!entities.empty() ? entities[Shape::selected()]->transform(Transformation::get(), Transformation::getX(), Transformation::getY(), Transformation::getZ(), -1) : donothing();
+			if (modeList)
+			{
+				dynamic_cast<List *>(entities[ListID])->m_entities[Entity::selected()]->transform(Transformation::get(), Transformation::getX(), Transformation::getY(), Transformation::getZ(), -1);
+			}
+			else
+			{
+				!entities.empty() ? entities[Entity::selected()]->transform(Transformation::get(), Transformation::getX(), Transformation::getY(), Transformation::getZ(), -1) : donothing();
+			}
 		}
 	}
 	else
@@ -226,44 +240,77 @@ void keyboard(unsigned char key, int x, int y)
 		break;
 	case '.':
 		Transformation::reset();
-		Shape::selected(1);
-		break;
-	case ',':
-		Transformation::reset();
-		Shape::selected(-1);
-		break;
-	case 'c':
-		if (!entities.empty() && entities[Entity::selected()]->getType() == "Shape")
+		if (modeList)
 		{
-			double r, g, b, a;
-			std::cout << "Enter new color:" << std::endl;
-			std::cout << "red: " << std::flush;
-			input(r);
-			std::cout << "green: " << std::flush;
-			input(g);
-			std::cout << "blue: " << std::flush;
-			input(b);
-			std::cout << "alpha: " << std::flush;
-			input(a);
-			dynamic_cast<Shape *>(entities[Entity::selected()])->setColor(r, g, b, a);
-			std::cout << "Color updated to R=" << r << ", G=" << g << ", B=" << b << ", A=" << a << std::endl;
-			std::cout << "done." << std::endl;
+			Entity::selected(dynamic_cast<List *>(entities[ListID])->m_entities.next(Entity::selected()));
 		}
 		else
 		{
-			std::cout << "there is no entities or the selected entity is a list not a shape.." << std::endl;
+			Entity::selected(entities.next(Entity::selected()));
 		}
+		break;
+	case ',':
+		Transformation::reset();
+		if (modeList)
+		{
+			Entity::selected(dynamic_cast<List *>(entities[ListID])->m_entities.prev(Entity::selected()));
+		}
+		else
+		{
+			Entity::selected(entities.prev(Entity::selected()));
+		}
+		break;
+	case 'c':
+		double r, g, b, a;
+		std::cout << "Enter new color:" << std::endl;
+		std::cout << "red: " << std::flush;
+		input(r);
+		std::cout << "green: " << std::flush;
+		input(g);
+		std::cout << "blue: " << std::flush;
+		input(b);
+		std::cout << "alpha: " << std::flush;
+		input(a);
+		if (modeList)
+		{
+			dynamic_cast<Shape *>(dynamic_cast<List *>(entities[ListID])->m_entities[Entity::selected()])->setColor(r, g, b, a);
+		}
+		else
+		{
+			dynamic_cast<Shape *>(entities[Entity::selected()])->setColor(r, g, b, a);
+		}
+		std::cout << "Color updated to R=" << r << ", G=" << g << ", B=" << b << ", A=" << a << std::endl;
+		std::cout << "done." << std::endl;
+
 		break;
 	case 3: // CTRL + C
-		!entities.empty() ? entities.push_back(new Entity(entities[Entity::selected()])) : donothing();
+		if (modeList)
+		{
+			dynamic_cast<List *>(entities[ListID])->pushEntity(dynamic_cast<List *>(entities[ListID])->m_entities[Entity::selected()]->clone());
+		}
+		else
+		{
+			!entities.empty() ? entities += entities[Entity::selected()]->clone() : donothing();
+		}
+
 		break;
 	case 127: // DELETE
-		if (!entities.empty())
+		if (modeList)
 		{
-			delete entities[Shape::selected()];
-			entities.erase(entities.begin() + Shape::selected());
-			Shape::selected(-1);
+			delete dynamic_cast<List *>(entities[ListID])->m_entities[Entity::selected()];
+			dynamic_cast<List *>(entities[ListID])->m_entities.erase(Entity::selected());
+			Entity::selected(dynamic_cast<List *>(entities[ListID])->m_entities.next(Entity::selected()));
 		}
+		else
+		{
+			if (!entities.empty())
+			{
+				delete entities[Entity::selected()];
+				entities.erase(Entity::selected());
+				Entity::selected(entities.next(Entity::selected()));
+			}
+		}
+
 		break;
 	case 't':
 		Transformation::set('t');
