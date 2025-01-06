@@ -75,6 +75,7 @@ void DrawGLScene(void)
     cube_button.display();
     newList_button.display();
     lists_button.display();
+    saveList_button.display();
     renderBitmapText(-0.5, 0.95, modeList ? entities[ListID]->getName().c_str() : "Scene Mode", GLUT_BITMAP_HELVETICA_18);
     Transformation::display();
     if (modeList)
@@ -86,8 +87,10 @@ void DrawGLScene(void)
     }
     else
     {
-        for(Entity* i : entities) {
-            if (i->getId() == Entity::selected()) {
+        for (Entity *i : entities)
+        {
+            if (i->getId() == Entity::selected())
+            {
                 i->displayInfo();
             }
         }

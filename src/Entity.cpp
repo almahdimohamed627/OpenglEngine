@@ -188,4 +188,21 @@ double Entity::getZ()
     return translate_z;
 }
 
+json Entity::toJSON() {
+    return json{{"id", id}, {"type", type}, {"name", name}, {"p_id", p_id}, {"perant", p_perant? p_perant->getName() : "None"},{"translate", {translate_x, translate_y, translate_z}}, {"rotate", {rotate_x, rotate_y, rotate_z}}, {"scale", {scale_x, scale_y, scale_z}}};
+}
 
+void Entity::fromJSON(const json &j) {
+    type = j.at("type").get<std::string>();
+    name = j.at("name").get<std::string>();
+    p_id = j.at("p_id").get<int>();
+    translate_x = j.at("translate")[0].get<double>();
+    translate_y = j.at("translate")[1].get<double>();
+    translate_z = j.at("translate")[2].get<double>();
+    rotate_x = j.at("rotate")[0].get<double>();
+    rotate_y = j.at("rotate")[1].get<double>();
+    rotate_z = j.at("rotate")[2].get<double>();
+    scale_x = j.at("scale")[0].get<double>();
+    scale_y = j.at("scale")[1].get<double>();
+    scale_z = j.at("scale")[2].get<double>();
+}

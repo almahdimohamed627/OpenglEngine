@@ -1,6 +1,7 @@
 #include "List.h"
 #include <iostream>
 #include "bitmap.h"
+#include "EntityFactory.h"
 
 List::List(std::string name) : Entity()
 {
@@ -52,4 +53,43 @@ bool List::empty()
 
 List* List::clone() {
     return new List(this);
+}
+
+json List::toJSON() {
+    // Create a JSON array to hold the serialized entities
+    json entitiesArray = json::array();
+
+    // Serialize each entity in m_entities and add it to the array
+    for (Entity* entity : m_entities) {
+        if (entity) { // Ensure the entity pointer is not null
+            entitiesArray.push_back(entity->toJSON());
+        }
+    }
+
+    // Return the complete JSON object for the List
+    return json{
+        {"id", id},
+        {"type", type},
+        {"name", name},
+        {"p_id", p_id},
+        {"perant", p_perant ? p_perant->getName() : "None"},
+        {"translate", {translate_x, translate_y, translate_z}},
+        {"rotate", {rotate_x, rotate_y, rotate_z}},
+        {"scale", {scale_x, scale_y, scale_z}},
+        {"entities", entitiesArray}
+    };
+}
+
+void List::fromJSON(const json &j) {
+    Entity::fromJSON(j); // Call base class implementation
+
+    // Parse the entities array
+    if (j.contains("entities") && j["entities"].is_array()) {
+        for (auto &entity_json : j["entities"]) {
+            // Use a factory or custom logic to create the correct derived class based on the "type"
+            Entity *entity = EntityFactory::createEntity(entity_json.at("type").get<std::string>(), entity_json.at("name").get<std::string>());
+            entity->fromJSON(entity_json); // Deserialize the entity
+            m_entities += entity;
+        }
+    }
 }

@@ -61,3 +61,16 @@ Shape *Shape::clone()
 {
     return new Shape(this);
 }
+
+json Shape::toJSON() {
+    return json{{"id", id}, {"type", type}, {"name", name}, {"p_id", p_id}, {"perant", p_perant? p_perant->getName() : "None"},{"translate", {translate_x, translate_y, translate_z}}, {"rotate", {rotate_x, rotate_y, rotate_z}}, {"scale", {scale_x, scale_y, scale_z}}, {"color", {red, green, blue, alpha}}};
+}
+
+void Shape::fromJSON(const json &j) {
+    Entity::fromJSON(j); // Call base class implementation
+
+    red = j.at("color")[0].get<double>();
+    green = j.at("color")[1].get<double>();
+    blue = j.at("color")[2].get<double>();
+    alpha = j.at("color")[3].get<double>();
+}

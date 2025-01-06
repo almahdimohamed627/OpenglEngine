@@ -14,6 +14,7 @@
 #include "Cube.h"
 #include "Button.h"
 #include "Transformation.h"
+#include "FileHandler.h"
 #include <exception>
 
 MyVector entities;
@@ -23,6 +24,7 @@ Button teaPot_button("Tea Pot", 20, 800 - 120);
 
 Button newList_button("New List", 20, 100);
 Button lists_button("Lists", 20, 60);
+Button saveList_button("Save List", 20, 20);
 
 template <typename T>
 void input(T &value)
@@ -92,6 +94,34 @@ void mouseButton(int button, int state, int x, int y)
 			entities += new List(listName);
 			ListID = entities.back()->getId();
 			modeList = true;
+		}
+		else if (saveList_button.testCollision() && modeList)
+		{
+			// Save the JSON to a file
+			try
+			{
+				char buffer[100];
+				sprintf(buffer, "Lists/%s.json", entities[ListID]->getName().c_str());
+				FileHandler::writeToFile(buffer, entities[ListID]->toJSON().dump(4)); // Save with pretty formatting
+				std::cout << "List saved to " << buffer << " successfully." << std::endl;
+				Entity::selected(ListID);
+				modeList = false;
+			}
+			catch (const std::exception &e)
+			{
+				std::cerr << "Error saving file: " << e.what() << std::endl;
+			}
+		}
+		else if (lists_button.testCollision())
+		{
+			// Load JSON from a file
+			std::ifstream file("Lists/chair.json");
+			json j;
+			file >> j;
+
+			// Deserialize into a List object
+			entities += new List("chair");
+			entities[Entity::selected()]->fromJSON(j);
 		}
 	}
 	else if (button == GLUT_RIGHT_BUTTON && state == GLUT_DOWN)

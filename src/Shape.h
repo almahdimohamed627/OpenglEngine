@@ -3,8 +3,9 @@
 #include <string>
 #include "globals.h"
 #include "Entity.h"
+#include "json.hpp"
 #include <GL/freeglut.h>
-
+using json = nlohmann::json;
 // Base Shape class
 class Shape : public Entity {
 protected:
@@ -19,6 +20,8 @@ public:
     void applyTransformation() override;
     void display() override;
     void displayInfo() override;
+    json toJSON() override;
+    void fromJSON(const json &j) override;
     Shape* clone() override;
 };
 

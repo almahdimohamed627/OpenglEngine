@@ -2,8 +2,10 @@
 #define ENTITY_H
 #include <string>
 #include "globals.h"
+#include "json.hpp"
 #include <GL/freeglut.h>
 
+using json = nlohmann::json;
 // Base Entity class
 class Entity {
 protected:
@@ -35,6 +37,8 @@ public:
     void translate(double x, double y, double z);
     virtual void display();
     virtual void displayInfo();
+    virtual json toJSON();
+    virtual void fromJSON(const json &j);
     virtual Entity* clone() = 0; // Pure virtual method
 
 };

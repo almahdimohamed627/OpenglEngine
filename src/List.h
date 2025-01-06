@@ -18,6 +18,8 @@ public:
     void displayInfo() override;
     void pushEntity(Entity *e);
     bool empty();
+    json toJSON() override;
+    void fromJSON(const json &j) override;
     List* clone() override;
 };
 
