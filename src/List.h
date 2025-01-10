@@ -20,6 +20,7 @@ public:
     bool empty();
     json toJSON() override;
     void fromJSON(const json &j) override;
+    void fromJSON(const json &j, int p_id) override;
     List* clone() override;
 };
 

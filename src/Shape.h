@@ -22,6 +22,7 @@ public:
     void displayInfo() override;
     json toJSON() override;
     void fromJSON(const json &j) override;
+    void fromJSON(const json &j, int p_id);
     Shape* clone() override;
 };
 

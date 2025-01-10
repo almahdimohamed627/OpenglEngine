@@ -74,3 +74,12 @@ void Shape::fromJSON(const json &j) {
     blue = j.at("color")[2].get<double>();
     alpha = j.at("color")[3].get<double>();
 }
+
+void Shape::fromJSON(const json &j, int p_id) {
+    Entity::fromJSON(j); // Call base class implementation
+    this->p_id = p_id;
+    red = j.at("color")[0].get<double>();
+    green = j.at("color")[1].get<double>();
+    blue = j.at("color")[2].get<double>();
+    alpha = j.at("color")[3].get<double>();
+}

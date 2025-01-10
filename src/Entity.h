@@ -39,6 +39,7 @@ public:
     virtual void displayInfo();
     virtual json toJSON();
     virtual void fromJSON(const json &j);
+    virtual void fromJSON(const json &j, int p_id);
     virtual Entity* clone() = 0; // Pure virtual method
 
 };

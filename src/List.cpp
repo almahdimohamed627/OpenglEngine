@@ -88,7 +88,21 @@ void List::fromJSON(const json &j) {
         for (auto &entity_json : j["entities"]) {
             // Use a factory or custom logic to create the correct derived class based on the "type"
             Entity *entity = EntityFactory::createEntity(entity_json.at("type").get<std::string>(), entity_json.at("name").get<std::string>());
-            entity->fromJSON(entity_json); // Deserialize the entity
+            entity->fromJSON(entity_json, this->id); // Deserialize the entity
+            m_entities += entity;
+        }
+    }
+}
+
+void List::fromJSON(const json &j, int p_id) {
+    Entity::fromJSON(j, p_id); // Call base class implementation
+
+    // Parse the entities array
+    if (j.contains("entities") && j["entities"].is_array()) {
+        for (auto &entity_json : j["entities"]) {
+            // Use a factory or custom logic to create the correct derived class based on the "type"
+            Entity *entity = EntityFactory::createEntity(entity_json.at("type").get<std::string>(), entity_json.at("name").get<std::string>());
+            entity->fromJSON(entity_json, this->id); // Deserialize the entity
             m_entities += entity;
         }
     }
