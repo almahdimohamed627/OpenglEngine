@@ -16,6 +16,7 @@
 #include "Transformation.h"
 #include "FileHandler.h"
 #include <exception>
+//#include "getCode.h"
 
 MyVector entities;
 Button sphere_button("Sphere", 20, 800 - 40);
@@ -124,6 +125,10 @@ void mouseButton(int button, int state, int x, int y)
 			// Deserialize into a List object
 			entities += new List("chair");
 			entities[Entity::selected()]->fromJSON(j);
+		}
+		else if(editList_button.testCollision()) {
+			ListID = entities[Entity::selected()]->getId();
+			modeList = true;
 		}
 	}
 	else if (button == GLUT_RIGHT_BUTTON && state == GLUT_DOWN)
