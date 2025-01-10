@@ -76,6 +76,7 @@ void DrawGLScene(void)
     newList_button.display();
     lists_button.display();
     saveList_button.display();
+    saveToCode_button.display();
     renderBitmapText(-0.5, 0.95, modeList ? entities[ListID]->getName().c_str() : "Scene Mode", GLUT_BITMAP_HELVETICA_18);
     Transformation::display();
     if (modeList)

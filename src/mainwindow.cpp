@@ -22,9 +22,10 @@ Button sphere_button("Sphere", 20, 800 - 40);
 Button cube_button("Cube", 20, 800 - 80);
 Button teaPot_button("Tea Pot", 20, 800 - 120);
 
-Button newList_button("New List", 20, 100);
-Button lists_button("Lists", 20, 60);
-Button saveList_button("Save List", 20, 20);
+Button newList_button("New List", 20, 140);
+Button lists_button("Lists", 20, 100);
+Button saveList_button("Save List", 20, 60);
+Button saveToCode_button("Save To Code", 20, 20);
 
 template <typename T>
 void input(T &value)
