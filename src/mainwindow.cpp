@@ -67,8 +67,9 @@ void mouseButton(int button, int state, int x, int y)
 					file >> j;
 
 					// Deserialize into a List object
-					entities += new List(list->getName());
+					entities += new List(list->getName(), Ex, E, Ez);
 					entities[Entity::selected()]->fromJSON(j);
+					Entity::selected(entities.back()->getId());
 					showingLists = false;
 				}
 			}

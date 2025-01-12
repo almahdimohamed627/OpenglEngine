@@ -12,6 +12,7 @@ protected:
 public:
     MyVector m_entities;
     List(std::string name);
+    List(std::string name, double x, double y, double z);
     List(Entity *p_perant, std::string name);
     List(List* e);
     void display() override;

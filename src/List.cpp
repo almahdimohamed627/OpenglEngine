@@ -9,6 +9,12 @@ List::List(std::string name) : Entity()
     this->name = name;
 }
 
+List::List(std::string name, double x, double y, double z) : Entity(x, y, z)
+{
+    type = "List";
+    this->name = name;
+}
+
 List::List(Entity *p_perant, std::string name) : List(name)
 {
     this->p_perant = p_perant;
@@ -84,8 +90,14 @@ json List::toJSON()
 
 void List::fromJSON(const json &j)
 {
-    Entity::fromJSON(j); // Call base class implementation
-
+    type = j.at("type").get<std::string>();
+    name = j.at("name").get<std::string>();
+    rotate_x = j.at("rotate")[0].get<double>();
+    rotate_y = j.at("rotate")[1].get<double>();
+    rotate_z = j.at("rotate")[2].get<double>();
+    scale_x = j.at("scale")[0].get<double>();
+    scale_y = j.at("scale")[1].get<double>();
+    scale_z = j.at("scale")[2].get<double>();
     // Parse the entities array
     if (j.contains("entities") && j["entities"].is_array())
     {
@@ -101,8 +113,15 @@ void List::fromJSON(const json &j)
 
 void List::fromJSON(const json &j, int p_id)
 {
-    Entity::fromJSON(j, p_id); // Call base class implementation
-
+    this->p_id = p_id;
+    type = j.at("type").get<std::string>();
+    name = j.at("name").get<std::string>();
+    rotate_x = j.at("rotate")[0].get<double>();
+    rotate_y = j.at("rotate")[1].get<double>();
+    rotate_z = j.at("rotate")[2].get<double>();
+    scale_x = j.at("scale")[0].get<double>();
+    scale_y = j.at("scale")[1].get<double>();
+    scale_z = j.at("scale")[2].get<double>();
     // Parse the entities array
     if (j.contains("entities") && j["entities"].is_array())
     {
