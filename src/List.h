@@ -21,6 +21,9 @@ public:
     json toJSON() override;
     void fromJSON(const json &j) override;
     void fromJSON(const json &j, int p_id) override;
+    std::string getDisplayCode() override;
+    std::string getDisplayCode(int id);
+    std::string getListCode(int id);
     List* clone() override;
 };
 

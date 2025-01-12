@@ -10,6 +10,7 @@ public:
     Cube(Entity *p_perant, double x, double y, double z);
     Cube(Cube *e);
     void display() override;
+    std::string getDisplayCode() override;
     Cube* clone() override;
 };
 

@@ -12,38 +12,27 @@
 #include "List.h"
 #include "Sphere.h"
 #include "Cube.h"
+#include "Cylinder.h"
 #include "Button.h"
 #include "Transformation.h"
 #include "FileHandler.h"
 #include <exception>
-//#include "getCode.h"
-
 MyVector entities;
+#include "getCode.h"
+
+
 Button sphere_button("Sphere", 20, 800 - 40);
 Button cube_button("Cube", 20, 800 - 80);
 Button teaPot_button("Tea Pot", 20, 800 - 120);
+Button cylinder_button("Cylinder", 20, 800 - 160);
 
 Button newList_button("New List", 20, 180);
 Button lists_button("Lists", 20, 140);
 Button editList_button("Edit List", 20, 100);
 Button saveList_button("Save List", 20, 60);
-Button saveToCode_button("Save To Code", 20, 20);
+Button saveToCode_button("Save To Code ", 20, 20);
 
-template <typename T>
-void input(T &value)
-{
-	if constexpr (std::is_same<T, std::string>::value)
-	{
-		std::getline(std::cin, value); // Read the whole line (including spaces)
-		return;
-	}
-	while (!(std::cin >> value))
-	{
-		std::cout << "Invalid input. Please try again: ";
-		std::cin.clear();
-		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-	}
-}
+
 
 // Callback for mouse button clicks
 void mouseButton(int button, int state, int x, int y)
@@ -89,6 +78,17 @@ void mouseButton(int button, int state, int x, int y)
 				entities += new Cube(Ex, E, Ez);
 			}
 		}
+		else if (cylinder_button.testCollision())
+		{
+			if (modeList)
+			{
+				dynamic_cast<List *>(entities[ListID])->pushEntity(new Cylinder(entities[ListID], Ex, E, Ez));
+			}
+			else
+			{
+				entities += new Cylinder(Ex, E, Ez);
+			}
+		}
 		else if (newList_button.testCollision())
 		{
 			std::cout << "Enter New List Name: " << std::flush;
@@ -129,6 +129,9 @@ void mouseButton(int button, int state, int x, int y)
 		else if(editList_button.testCollision()) {
 			ListID = entities[Entity::selected()]->getId();
 			modeList = true;
+		}
+		else if(saveToCode_button.testCollision()) {
+			getCode();
 		}
 	}
 	else if (button == GLUT_RIGHT_BUTTON && state == GLUT_DOWN)

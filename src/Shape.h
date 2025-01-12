@@ -23,6 +23,7 @@ public:
     json toJSON() override;
     void fromJSON(const json &j) override;
     void fromJSON(const json &j, int p_id);
+    std::string getDisplayCode() override;
     Shape* clone() override;
 };
 

@@ -73,6 +73,7 @@ void DrawGLScene(void)
     sphere_button.display();
     teaPot_button.display();
     cube_button.display();
+    cylinder_button.display();
     newList_button.display();
     lists_button.display();
     editList_button.display();

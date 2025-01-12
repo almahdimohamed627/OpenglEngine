@@ -3,6 +3,7 @@
 #include <iostream>
 #include "Entity.h"
 #include "bitmap.h"
+#include "globals.h"
 
 int Entity::count = 0; // Definition of static variable
 int Entity::selectedIndex = 0;
@@ -220,3 +221,24 @@ void Entity::fromJSON(const json &j, int p_id) {
     scale_y = j.at("scale")[1].get<double>();
     scale_z = j.at("scale")[2].get<double>();
 }
+
+
+std::string Entity::getDisplayCode() {
+    char buffer[100];
+    std::string temp = "";
+    temp +="glPushMatrix();\n";
+    sprintf(buffer, "glTranslated(%.2f, %.2f, %.2f);\n", translate_x, translate_y, translate_z);
+    temp+=buffer;
+    sprintf(buffer, "glRotated(%.2f, 1, 0, 0);\n", rotate_x);
+    temp+=buffer;
+    sprintf(buffer, "glRotated(%.2f, 0, 1, 0);\n", rotate_y);
+    temp+=buffer;
+    sprintf(buffer, "glRotated(%.2f, 0, 0, 1);\n", rotate_z);
+    temp+=buffer;
+    sprintf(buffer, "glScaled(%.2f, %.2f, %.2f);\n", scale_x, scale_y, scale_z);
+    temp+=buffer;
+    temp +="glutSolidTeapot(2);\n";
+    temp +="glPopMatrix();\n";
+    return temp;
+}
+

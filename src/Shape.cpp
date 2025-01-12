@@ -83,3 +83,28 @@ void Shape::fromJSON(const json &j, int p_id) {
     blue = j.at("color")[2].get<double>();
     alpha = j.at("color")[3].get<double>();
 }
+
+
+
+std::string Shape::getDisplayCode() {
+    char buffer[100];
+    std::string temp = "";
+    temp +="glPushMatrix();\n";
+    sprintf(buffer, "glColor4ub(%.2f, %.2f, %.2f, %.2f);\n", red, green, blue, alpha);
+    temp+=buffer;
+    sprintf(buffer, "glTranslated(%.2f, %.2f, %.2f);\n", translate_x, translate_y, translate_z);
+    temp+=buffer;
+    sprintf(buffer, "glRotated(%.2f, 1, 0, 0);\n", rotate_x);
+    temp+=buffer;
+    sprintf(buffer, "glRotated(%.2f, 0, 1, 0);\n", rotate_y);
+    temp+=buffer;
+    sprintf(buffer, "glRotated(%.2f, 0, 0, 1);\n", rotate_z);
+    temp+=buffer;
+    sprintf(buffer, "glScaled(%.2f, %.2f, %.2f);\n", scale_x, scale_y, scale_z);
+    temp+=buffer;
+    temp +="glutSolidTeapot(2);\n";
+    temp +="glPopMatrix();\n";
+    return temp;
+}
+
+

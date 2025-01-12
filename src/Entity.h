@@ -40,6 +40,7 @@ public:
     virtual json toJSON();
     virtual void fromJSON(const json &j);
     virtual void fromJSON(const json &j, int p_id);
+    virtual std::string getDisplayCode();
     virtual Entity* clone() = 0; // Pure virtual method
 
 };
