@@ -19,7 +19,8 @@
 #include <exception>
 MyVector entities;
 #include "getCode.h"
-
+#include <filesystem>			// Ensure this header is included
+namespace fs = std::filesystem; // Define the alias
 
 Button sphere_button("Sphere", 20, 800 - 40);
 Button cube_button("Cube", 20, 800 - 80);
@@ -31,8 +32,7 @@ Button lists_button("Lists", 20, 140);
 Button editList_button("Edit List", 20, 100);
 Button saveList_button("Save List", 20, 60);
 Button saveToCode_button("Save To Code ", 20, 20);
-
-
+std::vector<Button *> lists_buttons;
 
 // Callback for mouse button clicks
 void mouseButton(int button, int state, int x, int y)
@@ -45,7 +45,34 @@ void mouseButton(int button, int state, int x, int y)
 		mouseY = y;
 		mouseTh = th;
 
-		if (sphere_button.testCollision())
+		if (lists_button.testCollision())
+		{
+			if (showingLists)
+				showingLists = false;
+			else
+				showingLists = true;
+		}
+		else if (showingLists)
+		{
+			for (Button *list : lists_buttons)
+			{
+				if (list->testCollision())
+				{
+					char fileName[100];
+					sprintf(fileName, "Lists/%s.json", list->getName().c_str());
+					// Load JSON from a file
+					std::ifstream file(fileName);
+					json j;
+					file >> j;
+
+					// Deserialize into a List object
+					entities += new List(list->getName());
+					entities[Entity::selected()]->fromJSON(j);
+					showingLists = false;
+				}
+			}
+		}
+		else if (sphere_button.testCollision())
 		{
 			if (modeList)
 			{
@@ -115,22 +142,14 @@ void mouseButton(int button, int state, int x, int y)
 				std::cerr << "Error saving file: " << e.what() << std::endl;
 			}
 		}
-		else if (lists_button.testCollision())
-		{
-			// Load JSON from a file
-			std::ifstream file("Lists/chair.json");
-			json j;
-			file >> j;
 
-			// Deserialize into a List object
-			entities += new List("chair");
-			entities[Entity::selected()]->fromJSON(j);
-		}
-		else if(editList_button.testCollision()) {
+		else if (editList_button.testCollision())
+		{
 			ListID = entities[Entity::selected()]->getId();
 			modeList = true;
 		}
-		else if(saveToCode_button.testCollision()) {
+		else if (saveToCode_button.testCollision())
+		{
 			getCode();
 		}
 	}
@@ -199,7 +218,7 @@ void mouseWheel(int wheel, int direction, int x, int y)
 		}
 
 		// Print the new E value (optional)
-		//printf("Mouse wheel scrolled. E = %.2f\n", E);
+		// printf("Mouse wheel scrolled. E = %.2f\n", E);
 	}
 	// Update the scene
 	glutPostRedisplay();
@@ -301,7 +320,8 @@ void keyboard(unsigned char key, int x, int y)
 		}
 		break;
 	case 'c':
-		if(entities.empty()) break;
+		if (entities.empty())
+			break;
 		double r, g, b, a;
 		std::cout << "Enter new color:" << std::endl;
 		std::cout << "red: " << std::flush;
@@ -506,6 +526,24 @@ int main(int argc, char **argv)
 	glutMotionFunc(mouseMotion);			   // For mouse dragging (motion while holding a button)
 	glutPassiveMotionFunc(passiveMouseMotion); // For motion without button presses
 	glutMouseWheelFunc(mouseWheel);
+
+	try
+	{
+		// Iterate through the directory
+		int counter = 0;
+		for (const auto &entry : fs::directory_iterator("./Lists/"))
+		{
+			if (entry.is_regular_file())
+			{ // Check if it's a file
+				lists_buttons.push_back(new Button(entry.path().stem().string(), (counter/20)*160 + 200, 765 - (counter%20) * 40));
+			}
+			counter++;
+		}
+	}
+	catch (const fs::filesystem_error &e)
+	{
+		std::cerr << "Error: " << e.what() << "\n";
+	}
 
 	Timer(0);
 	glutDisplayFunc(DrawGLScene);

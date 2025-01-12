@@ -8,13 +8,14 @@
 
 class Button {
 private:
-    std::string text;
+    std::string name;
     double x, y;
 
 public:
-    Button(const std::string &text, double x, double y);
+    Button(const std::string &name, double x, double y);
     bool testCollision();
     void display();
+    std::string getName();
 };
 
 #endif

@@ -1,6 +1,7 @@
 #include "Entity.h"
 #include "Shape.h"
 #include "Cube.h"
+#include "Cylinder.h"
 #include "List.h"
 #include "Sphere.h"
 
@@ -13,6 +14,9 @@ public:
             }
             else if(name == "Cube") {
                 return new Cube();
+            }
+            else if(name == "Cylinder") {
+                return new Cylinder();
             }
         }
         if(type == "List") {
