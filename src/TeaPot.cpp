@@ -46,7 +46,7 @@ std::string TeaPot::getDisplayCode() {
     temp+=buffer;
     sprintf(buffer, "glScaled(%.2f, %.2f, %.2f);\n", scale_x, scale_y, scale_z);
     temp+=buffer;
-    temp +="glutSolidTeapot(1);\n";
+    temp +="glutSolidTeapot(1); // Teapot\n";
     temp +="glPopMatrix();\n";
     return temp;
 }

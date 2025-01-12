@@ -46,7 +46,7 @@ std::string Sphere::getDisplayCode() {
     temp+=buffer;
     sprintf(buffer, "glScaled(%.2f, %.2f, %.2f);\n", scale_x, scale_y, scale_z);
     temp+=buffer;
-    temp +="glutSolidSphere(1, 50, 50);\n";
+    temp +="glutSolidSphere(1, 50, 50);  // Sphere\n";
     temp +="glPopMatrix();\n";
     return temp;
 }
