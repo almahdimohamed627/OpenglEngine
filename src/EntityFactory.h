@@ -4,6 +4,7 @@
 #include "Cylinder.h"
 #include "List.h"
 #include "Sphere.h"
+#include "TeaPot.h"
 
 class EntityFactory {
 public:
@@ -17,6 +18,9 @@ public:
             }
             else if(name == "Cylinder") {
                 return new Cylinder();
+            }
+            else if(name == "TeaPot") {
+                return new TeaPot();
             }
         }
         if(type == "List") {

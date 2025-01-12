@@ -13,6 +13,7 @@
 #include "Sphere.h"
 #include "Cube.h"
 #include "Cylinder.h"
+#include "TeaPot.h"
 #include "Button.h"
 #include "Transformation.h"
 #include "FileHandler.h"
@@ -87,11 +88,11 @@ void mouseButton(int button, int state, int x, int y)
 		{
 			if (modeList)
 			{
-				// dynamic_cast<List *>(entities[ListID])->pushEntity(new Entity(ListID));
+				dynamic_cast<List *>(entities[ListID])->pushEntity(new TeaPot(entities[ListID], Ex, E, Ez));
 			}
 			else
 			{
-				// entities += new Entity();
+				entities += new TeaPot(Ex, E, Ez);
 			}
 		}
 		else if (cube_button.testCollision())
