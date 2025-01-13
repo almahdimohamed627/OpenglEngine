@@ -67,7 +67,7 @@ std::string Cylinder::getDisplayCode() {
     temp+= "glPopMatrix();\n";
     temp+= "glPushMatrix();\n";
     temp+= "glTranslatef(0.0f, 0.0f, 1.0f);\n";
-    temp+= "gluDisk(a, 0.0, 1.0, 50, 50);\n";
+    temp+= "gluDisk(a, 0.0, 1.0, 50, 50);   // top disk\n";
     temp+= "glPopMatrix();\n";
     temp +="glPopMatrix();\n";
     return temp;
