@@ -757,6 +757,47 @@ void InitGL(void)
 	glPopMatrix();
 
 	glEndList(); // end of Car list
+
+	glNewList(69, GL_COMPILE); // create tree list
+	glPushMatrix();
+	glColor4ub(124.00, 86.00, 19.00, 255.00);
+	glTranslated(0.00, 0.00, 0.00);
+	glRotated(-90.00, 1, 0, 0);
+	glRotated(0.00, 0, 1, 0);
+	glRotated(0.00, 0, 0, 1);
+	glScaled(1.00, 1.00, 10.60);
+	gluCylinder(a, 1.0, 1.0, 1.0, 50, 50); // Cylinder
+	glPushMatrix();
+	glRotatef(180, 1.0f, 0.0f, 0.0f);
+	gluDisk(a, 0.0, 1.0, 50, 50); // buttom disk
+	glPopMatrix();
+	glPushMatrix();
+	glTranslatef(0.0f, 0.0f, 1.0f);
+	gluDisk(a, 0.0, 1.0, 50, 50);
+	glPopMatrix();
+	glPopMatrix();
+
+	glPushMatrix();
+	glColor4ub(19.00, 124.00, 61.00, 255.00);
+	glTranslated(0.00, 12.50, 0.00);
+	glRotated(0.00, 1, 0, 0);
+	glRotated(0.00, 0, 1, 0);
+	glRotated(0.00, 0, 0, 1);
+	glScaled(4.60, 4.60, 4.60);
+	glutSolidSphere(1, 50, 50); // Sphere
+	glPopMatrix();
+
+	glPushMatrix();
+	glColor4ub(19.00, 124.00, 61.00, 255.00);
+	glTranslated(0.00, 16.00, 0.00);
+	glRotated(0.00, 1, 0, 0);
+	glRotated(0.00, 0, 1, 0);
+	glRotated(0.00, 0, 0, 1);
+	glScaled(4.00, 4.70, 4.00);
+	glutSolidSphere(1, 50, 50); // Sphere
+	glPopMatrix();
+
+	glEndList(); // end of tree list
 }
 
 void ReSizeGLScene(int w, int h)
@@ -924,6 +965,50 @@ void DrawGLScene(void)
 	glRotated(0.00, 0, 0, 1);
 	glScaled(0.50, 0.50, 0.50);
 	glutSolidTeapot(1); // Teapot
+	glPopMatrix();
+
+	/////////////////////////////////////
+
+	glPushMatrix();
+	glTranslated(-40.77, 0.00, 1.20);
+	glRotated(0.00, 1, 0, 0);
+	glRotated(0.00, 0, 1, 0);
+	glRotated(0.00, 0, 0, 1);
+	glScaled(1.00, 1.00, 1.00);
+	glCallList(69); // call tree list
+	glPopMatrix();
+
+	/////////////////////////////////////
+
+	glPushMatrix();
+	glTranslated(-105.27, 0.00, -63.30);
+	glRotated(0.00, 1, 0, 0);
+	glRotated(0.00, 0, 1, 0);
+	glRotated(0.00, 0, 0, 1);
+	glScaled(1.00, 1.00, 1.00);
+	glCallList(69); // call tree list
+	glPopMatrix();
+
+	/////////////////////////////////////
+
+	glPushMatrix();
+	glTranslated(-54.27, 0.00, -75.00);
+	glRotated(0.00, 1, 0, 0);
+	glRotated(0.00, 0, 1, 0);
+	glRotated(0.00, 0, 0, 1);
+	glScaled(1.00, 1.00, 1.00);
+	glCallList(69); // call tree list
+	glPopMatrix();
+
+	/////////////////////////////////////
+
+	glPushMatrix();
+	glTranslated(-99.37, 0.00, 22.50);
+	glRotated(0.00, 1, 0, 0);
+	glRotated(0.00, 0, 1, 0);
+	glRotated(0.00, 0, 0, 1);
+	glScaled(1.00, 1.00, 1.00);
+	glCallList(69); // call tree list
 	glPopMatrix();
 
 	glutSwapBuffers(); // Swap buffers to display the rendered content

@@ -324,8 +324,16 @@ void keyboard(unsigned char key, int x, int y)
 	case 'c':
 		if (entities.empty())
 			break;
-		if (entities[Entity::selected()]->getType() == "List")
-			break;
+		if (modeList)
+		{
+			if(dynamic_cast<List *>(entities[ListID])->m_entities[Entity::selected()]->getType() == "List")
+				break;
+		}
+		else
+		{
+			if (entities[Entity::selected()]->getType() == "List")
+				break;
+		}
 		double r, g, b, a;
 		std::cout << "Enter new color:" << std::endl;
 		std::cout << "red: " << std::flush;
